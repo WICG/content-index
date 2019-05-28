@@ -55,6 +55,7 @@ Developers have control over which content they want to make available to the br
 **content index** is comparable to that of Notifications, but with a less intrusive UX and more structured content. When
 adding personalized content, websites can simply remove entries on logout (and close all open Notifications). The
 storage required to store the entries of the index itself count towards the quota of the origin.
+[This document](SECURITY_AND_PRIVACY.md) contains additional answers of the [security & privacy questionnaire](https://www.w3.org/TR/security-privacy-questionnaire/).
 
 ## Examples
 Please see [this separate document](IDL.md) for the proposed WebIDL additions.
