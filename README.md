@@ -22,6 +22,20 @@ the providers themselves. With this API they can highlight user specific, high q
 Grouping content by a category (e.g. 'article', 'video', 'audio') allows an even richer experience as the browser is
 able to understand what kind of content is available and show a relevant UI.
 
+### Usage scenario 1
+A news publisher has a website that uses service workers to allow its users to read news articles offline. Highly
+engaged users of this website may see a link to the site in their browsers home screen, but have no way of knowing if
+there are any new articles available to read beforehand. The news site can leverage web notifications for high priority
+breaking news articles, but should not use them for less important ones. By using this API, the news site can simply
+expose its content to the browser which can then surface that content to the user. Users can then browse available
+content in a central location, even while offline.
+
+### Usage scenario 2
+A blog publishes regular podcasts to its users. It is available as a PWA and uses background fetch to download the audio
+files. An embedded media player then allows users to listen to these podcasts. With this API, these podcasts can be
+surfaced in the OS, allowing users to search for their downloaded content through native UI surfaces. This integration
+is only available with native apps at the moment.
+
 ## Goals
 - Allow users to easily find content even while **offline**
 - Surface high quality content in native spaces (example: [Android Slices](https://developer.android.com/guide/slices))
