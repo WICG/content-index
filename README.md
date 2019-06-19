@@ -86,11 +86,11 @@ await swRegistration.index.add({
   launchUrl: 'https://website.dev/articles/123',
 });
 
-// Remove an entry from the content index
-await swRegistration.index.remove('article-123');
+// Delete an entry from the content index
+await swRegistration.index.delete('article-123');
 
 // List all entries in the content index
-const entries = await swRegistration.index.list();
+const entries = await swRegistration.index.getDescriptions();
 ```
 
 ### Combined with other APIs

@@ -11,18 +11,18 @@ enum ContentCategory {
 };
 
 dictionary ContentDescription {
-    DOMString id;
-    DOMString title;
-    DOMString description;
-    ContentCategory category;
-    USVString iconUrl;
-    USVString launchUrl;
+    required DOMString id;
+    required DOMString title;
+    required DOMString description;
+    required ContentCategory category;
+    required USVString iconUrl;
+    required USVString launchUrl;
 };
 
 interface ContentIndex {
     Promise<void> add(ContentDescription description);
-    Promise<void> remove(DOMString id);
-    Promise<sequence<ContentDescription>> list();
+    Promise<void> delete(DOMString id);
+    Promise<sequence<ContentDescription>> getDescriptions();
 };
 ```
 
