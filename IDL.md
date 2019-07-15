@@ -32,3 +32,20 @@ partial interface ServiceWorkerRegistration {
     [SameObject] readonly attribute ContentIndex index;
 };
 ```
+
+## Additions to the Service Worker Global Scope
+``webidl
+dictionary ContentIndexEventInit : ExtendableEventInit {
+    required DOMString id;
+};
+
+[
+   Constructor(DOMString type, ContentIndexEventInit id),
+] interface ContentIndexEvent : ExtendableEvent {
+    readonly attribute DOMString id;
+};
+
+partial interface ServiceWorkerGlobalScope {
+    attribute EventHandler oncontentdelete;
+};
+```

@@ -128,6 +128,14 @@ async function handlePush(data) {
 
 // Handle web push event in service worker
 self.addEventListener('push', event => event.waitUntil(handlePush(event.data.json())));
+
+// Handle content deletion event in service worker.
+// This is called when a user (or useragent) has deleted the content.
+self.addEventListener('contentdelete', event => {
+  event.waitUntil(Promise.all([
+    // Delete cache & DB entries using `event.id`.
+  ]));
+});
 ```
 
 When used together with the proposed
