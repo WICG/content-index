@@ -15,7 +15,7 @@ dictionary ContentDescription {
     required DOMString title;
     required DOMString description;
     required ContentCategory category;
-    required USVString iconUrl;
+    sequence<ImageResource> icons;
     required USVString launchUrl;
 };
 

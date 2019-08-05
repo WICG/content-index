@@ -82,7 +82,13 @@ await swRegistration.index.add({
   title: 'Article title',
   description: 'Amazing article about things!',
   category: 'article',
-  iconUrl: 'https://website.dev/img/article-123.png',
+  icons: [
+    {
+      src: 'https://website.dev/img/article-123.png',
+      sizes: '64x64',
+      type: 'image/png',
+    },
+  ],
   launchUrl: 'https://website.dev/articles/123',
 });
 
@@ -104,7 +110,7 @@ async function handlePush(data) {
   const news = await fetch(`/api/news/${data.id}`);
 
   // Store content in database and cache resources
-  await Promise.all([db.add(news), cache.add(news.iconUrl)]);
+  await Promise.all([db.add(news), cache.add(news.icons[0].src)]);
 
   // Add content to content index
   if ('index' in self.registration) {
@@ -113,7 +119,7 @@ async function handlePush(data) {
       title: news.title,
       description: news.description,
       category: 'article',
-      iconUrl: news.iconUrl,
+      icons: news.icons,
       launchUrl: `/news/${news.id}`,
     });
   }
@@ -122,7 +128,7 @@ async function handlePush(data) {
   return self.registration.showNotification(news.title, {
     tag: news.id,
     body: news.description,
-    icon: news.iconUrl,
+    icon: news.icons[0].src,
   });
 }
 
@@ -149,7 +155,7 @@ function addArticleToIndex(article) {
     title: article.title,
     description: article.description,
     category: 'article',
-    iconUrl: article.iconUrl,
+    icons: article.icons,
     launchUrl: '/articles/' + article.id,
   });
 }
