@@ -1,0 +1,166 @@
+<pre class='metadata'>
+Title: Content Index
+Shortname: content-index
+Level: 1
+Status: ED
+Group: wicg
+URL: https://rayankans.github.io/content-index
+Editor: Peter Beverloo, Google, beverloo@google.com
+Editor: Rayan Kanso, Google, rayankans@google.com
+Abstract: An API for websites to register their offline enabled content with the browser.
+</pre>
+
+<style>
+  .algorithm dl {
+    overflow: hidden;
+  }
+  .algorithm dt {
+    font-weight: normal;
+    float: left;
+    clear: left;
+    line-height: 1.5;
+    margin-right: 0.3em;
+  }
+  .algorithm dt::after {
+    content: '- ';
+  }
+  .algorithm dd {
+    margin-left: 0em;
+  }
+</style>
+
+Introduction {#intro}
+=====================
+
+High quality offline-enabled web content is not easily discoverable by users right now. They would have to know which
+websites work offline or install a PWA to be able to browse through content while offline. This is not a great user
+experience as there is no central point to discover available content. To address this, the spec covers a new API which
+allows developers to tell the browser about their specific content.
+
+The content index allows websites to register their offline enabled content in the browser. This allows the browser to
+improve their offline capabilities and offer content to users to browse through while offline. This data could also be
+used to improve on-device search and augment browsing history.
+
+
+API {#api}
+==========
+
+## Extensions to {{ServiceWorkerGlobalScope}} ## {#extensions-to-service-worker-global}
+
+<script type="idl">
+partial interface ServiceWorkerGlobalScope {
+  attribute EventHandler oncontentdelete;
+};
+</script>
+
+### Events ### {#service-worker-global-events}
+
+The following is the <a>event handler</a> (and its corresponding <a>event handler event type</a>) that must be
+supported, as <a>event handler IDL attributes</a>, by all objects implementing {{ServiceWorker}} interface:
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>[=event handler event type=]</th>
+      <th>[=event handler=]</th>
+      <th>Interface</th>
+    </tr>
+  </thead>
+  <tbody dfn-for="ServiceWorkerGlobalScope" dfn-type="event">
+    <tr>
+      <td><dfn>contentdelete</dfn></td>
+      <td>{{ServiceWorkerGlobalScope/oncontentdelete}}</td>
+      <td>{{ContentIndexEvent}}</td>
+    </tr>
+  </tbody>
+</table>
+
+## Extensions to {{ServiceWorkerRegistration}} ## {#extensions-to-service-worker-registration}
+
+<script type="idl">
+partial interface ServiceWorkerRegistration {
+  [SameObject] readonly attribute ContentIndex index;
+};
+</script>
+
+<div dfn-for="ServiceWorkerRegistration">
+
+  A {{ServiceWorkerRegistration}} has a <dfn>content index</dfn> (a {{ContentIndex}}), initially a
+  new {{ContentIndex}} whose [=ContentIndex/service worker registration=] is the [=context
+  object=]'s [=/service worker registration=].
+
+  The <dfn attribute>index</dfn> attribute's getter must return the [=context object=]'s
+  [=ServiceWorkerRegistration/content index=].
+</div>
+
+## {{ContentIndex}} ## {#content-index}
+
+<script type="idl">
+enum ContentCategory {
+  "homepage",
+  "article",
+  "video",
+  "audio",
+};
+
+dictionary ContentDescription {
+  required DOMString id;
+  required DOMString title;
+  required DOMString description;
+  required ContentCategory category;
+  required sequence<ImageResource> icons;
+  required USVString launchUrl;
+};
+
+[Exposed=(Window,Worker)]
+interface ContentIndex {
+  Promise<void> add(ContentDescription description);
+  Promise<void> delete(DOMString id);
+  Promise<sequence<ContentDescription>> getDescriptions();
+};
+</script>
+
+<div dfn-for="ContentIndex">
+
+  A {{ContentIndex}} has a <dfn>service worker registration</dfn> (a [=/service worker registration=]).
+
+  ### {{ContentIndex/add()}} ### {#content-index-add}
+
+  <div algorithm>
+    The <dfn method>add(|description|)</dfn> method, when invoked, run these steps:
+    
+    1. TODO |description|.
+  </div>
+
+  ### {{ContentIndex/delete()}} ### {#content-index-delete}
+
+  <div algorithm>
+    The <dfn method>delete(|id|)</dfn> method, when invoked, run these steps:
+    
+    1. TODO |id|.
+  </div>
+
+  ### {{ContentIndex/getDescriptions()}} ### {#content-index-getdescriptions}
+
+  <div algorithm>
+    The <dfn method>getDescriptions()</dfn> method, when invoked, run these steps:
+    
+    1. TODO
+  </div>
+
+</div>
+
+</div>
+
+## {{ContentIndexEvent}} ## {#content-index-event}
+
+<script type="idl">
+dictionary ContentIndexEventInit : ExtendableEventInit {
+  required DOMString id;
+};
+
+[Constructor(DOMString type, ContentIndexEventInit id), Exposed=ServiceWorker]
+interface ContentIndexEvent : ExtendableEvent {
+  readonly attribute DOMString id;
+};
+</script>
