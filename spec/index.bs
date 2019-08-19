@@ -10,6 +10,10 @@ Editor: Rayan Kanso, Google, rayankans@google.com
 Abstract: An API for websites to register their offline enabled content with the browser.
 </pre>
 
+<pre class="link-defaults">
+  spec:promises-guide-1; type:dfn; text:resolve
+</pre>
+
 <style>
   .algorithm dl {
     overflow: hidden;
@@ -41,6 +45,17 @@ The content index allows websites to register their offline enabled content in t
 improve their offline capabilities and offer content to users to browse through while offline. This data could also be
 used to improve on-device search and augment browsing history.
 
+Infrastructure {#infrastructure}
+================================
+
+## Extensions to service worker registration ## {#service-worker-registration-concept-extensions}
+
+A [=/service worker registration=] additionally has:
+
+  <div dfn-for="service worker registration">
+    * <dfn>Content index entries</dfn> (a [=map=]), where each key is a DOMString, and each item is a
+        {{ContentDescription}}.
+  </div>
 
 API {#api}
 ==========
@@ -127,25 +142,39 @@ interface ContentIndex {
   ### {{ContentIndex/add()}} ### {#content-index-add}
 
   <div algorithm>
-    The <dfn method>add(|description|)</dfn> method, when invoked, run these steps:
-    
-    1. TODO |description|.
+    The <dfn method>add(|description|)</dfn> method, when invoked, must return [=a new promise=] |promise| and run
+    these steps [=in parallel=]:
+
+    1. Let |registration| be the [=context object=]'s [=ContentIndex/service worker registration=].
+    1. Let |contentIndexEntries| be |registration|'s [=content index entries=].
+    1. Let |id| be |description|'s {{ContentDescription/id}}.
+    1. [=map/Set=] |contentIndexEntries|[|id|] to |description|.
+    1. [=Resolve=] |promise| with undefined.
+
+    Note: Adding a description with an existing ID would overwrite the previous value.
   </div>
 
   ### {{ContentIndex/delete()}} ### {#content-index-delete}
 
   <div algorithm>
-    The <dfn method>delete(|id|)</dfn> method, when invoked, run these steps:
-    
-    1. TODO |id|.
+    The <dfn method>delete(|id|)</dfn> method, when invoked, must return [=a new promise=] |promise| and run these
+    steps [=in parallel=]:
+
+    1. Let |registration| be the [=context object=]'s [=ContentIndex/service worker registration=].
+    1. Let |contentIndexEntries| be |registration|'s [=content index entries=].
+    1. [=map/Remove=] |contentIndexEntries|[|id|].
+    1. [=Resolve=] |promise| with undefined.
   </div>
 
   ### {{ContentIndex/getDescriptions()}} ### {#content-index-getdescriptions}
 
   <div algorithm>
-    The <dfn method>getDescriptions()</dfn> method, when invoked, run these steps:
-    
-    1. TODO
+    The <dfn method>getDescriptions()</dfn> method, when invoked, must return [=a new promise=] |promise| and run these
+    steps [=in parallel=]:
+
+    1. Let |registration| be the [=context object=]'s [=ContentIndex/service worker registration=].
+    1. [=Resolve=] |promise| with the result of [=map/getting the values=] of |registration|'s
+        [=content index entries=].
   </div>
 
 </div>
