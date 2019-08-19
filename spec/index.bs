@@ -54,7 +54,68 @@ A [=/service worker registration=] additionally has:
 
   <div dfn-for="service worker registration">
     * <dfn>Content index entries</dfn> (a [=map=]), where each key is a DOMString, and each item is a
-        {{ContentDescription}}.
+        [=content index entry=].
+  </div>
+  
+  ## Content index entry ## {#content-index-entry-concept}
+  
+  A <dfn>content index entry</dfn> consists of:
+  
+  <div dfn-for="content index entry">
+    * A <dfn>description</dfn> (a {{ContentDescription}}).
+    * A <dfn>service worker registration</dfn> (a [=/service worker registration=]).
+  </div>
+  
+  ### [=Display=] ### {#content-index-entry-display}
+  
+  <div algorithm>
+    To <dfn>display</dfn> a [=/content index entry=] (|entry|) for a given |environment| (an
+    [=environment settings object=]), the user agent must present a user interface that follows these rules:
+  
+    * The UI MUST prominently display the |entry|'s [=content index entry/service worker registration=]'s [=service
+        worker registration/scope url=]'s [=url/origin=].
+    * The UI may display |entry|'s [=content index entry/description=]'s {{ContentDescription/title}}.
+    * The UI may display |entry|'s [=content index entry/description=]'s {{ContentDescription/description}}.
+    * The UI may use |entry|'s [=content index entry/description=]'s {{ContentDescription/category}} in display
+        decisions.
+    * The UI may select icons for display from |entry|'s [=content index entry/description=]'s
+        {{ContentDescription/icons}}. Any icon (an {{ImageResource}}) can be [=/fetched=] using a new [=/request=] with
+        the following properties:
+        : [=request/URL=]
+        :: The {{ImageResource}}'s [=ImageResource/src=].
+        : [=request/Client=]
+        :: |environment|.
+        : [=request/Keepalive flag=]
+        :: Set.
+        : [=request/Destination=]
+        :: "`image`".
+        : [=request/Mode=]
+        :: "`no-cors`".
+        : [=request/Credentials mode=]
+        :: "`include`".
+    * The UI MUST provide a way for the user to delete the underlying content exposed by the UI, in which case
+        run [=delete a content index entry=] for |entry|.
+    * The UI MUST provide a way for the user to activate it (for example by clicking), in which case run
+        [=activate a content index entry=] for |entry|.
+  </div>
+
+Algorithms {#algorithms}
+========================
+
+## [=Delete a content index entry=] ## {#delete-a-content-index-entry-algorithm}
+
+  <div algorithm>
+    To <dfn>delete a content index entry</dfn> for |entry| (a [=content index entry=]), run these steps:
+
+    1. TODO |entry|.
+  </div>
+
+## [=Activate a content index entry=] ## {#activate-a-content-index-entry-algorithm}
+
+  <div algorithm>
+    To <dfn>activate a content index entry</dfn> for |entry| (a [=content index entry=]), run these steps:
+
+    1. TODO |entry|.
   </div>
 
 API {#api}
@@ -147,8 +208,15 @@ interface ContentIndex {
 
     1. Let |registration| be the [=context object=]'s [=ContentIndex/service worker registration=].
     1. Let |contentIndexEntries| be |registration|'s [=content index entries=].
+    1. TODO: Validate |description|.
+    1. Let |entry| be a new [=/content index entry=] with:
+        : [=content index entry/description=]
+        :: |description|.
+        : [=content index entry/service worker registration=]
+        :: |registration|.
     1. Let |id| be |description|'s {{ContentDescription/id}}.
-    1. [=map/Set=] |contentIndexEntries|[|id|] to |description|.
+    1. [=map/Set=] |contentIndexEntries|[|id|] to |entry|.
+    1. [=Display=] |entry| from the [=context object=]'s [=relevant settings object=].
     1. [=Resolve=] |promise| with undefined.
 
     Note: Adding a description with an existing ID would overwrite the previous value.
@@ -173,8 +241,11 @@ interface ContentIndex {
     steps [=in parallel=]:
 
     1. Let |registration| be the [=context object=]'s [=ContentIndex/service worker registration=].
-    1. [=Resolve=] |promise| with the result of [=map/getting the values=] of |registration|'s
-        [=content index entries=].
+    1. Let |contentIndexEntries| be |registration|'s [=content index entries=].
+    1. Let |descriptions| be an empty [=/list=].
+    1. [=map/For each=] id → |entry| of |contentIndexEntries|:
+        1. [=list/Append=] |entry|'s [=content index entry/description=] to |descriptions|.
+    1. [=Resolve=] |promise| with |descriptions|.
   </div>
 
 </div>
