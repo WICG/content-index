@@ -11,6 +11,8 @@ Abstract: An API for websites to register their offline enabled content with the
 </pre>
 
 <pre class="link-defaults">
+  spec:html; type:dfn; for:/; text:create a new browsing context
+  spec:infra; type:dfn; text:string
   spec:promises-guide-1; type:dfn; text:resolve
 </pre>
 
@@ -63,6 +65,7 @@ A [=/service worker registration=] additionally has:
   
   <div dfn-for="content index entry">
     * A <dfn>description</dfn> (a {{ContentDescription}}).
+    * A <dfn>launch url</dfn> (a [=/URL=]).
     * A <dfn>service worker registration</dfn> (a [=/service worker registration=]).
   </div>
   
@@ -107,15 +110,29 @@ Algorithms {#algorithms}
   <div algorithm>
     To <dfn>delete a content index entry</dfn> for |entry| (a [=content index entry=]), run these steps:
 
-    1. TODO |entry|.
+    1. Let |id| be |entry|'s [=content index entry/description=]'s {{ContentDescription/id}}.
+    1. Let |contentIndexEntries| be |entry|'s [=content index entry/description=]'s [=content index entries=].
+    1. [=map/Remove=] |contentIndexEntries|[|id|].
+    1. [=Fire a content delete event=] for |entry|.
   </div>
 
 ## [=Activate a content index entry=] ## {#activate-a-content-index-entry-algorithm}
 
   <div algorithm>
     To <dfn>activate a content index entry</dfn> for |entry| (a [=content index entry=]), run these steps:
+    
+    1. Let |browsingContext| be the result of running [=create a new browsing context=].
+    1. [=Navigate=] |browsingContext| to |entry|'s [=content index entry/launch url=].
+  </div>
 
-    1. TODO |entry|.
+## [=Fire a content delete event=] ## {#fire-content-delete-event-algorithm}
+
+  <div algorithm>
+    To <dfn>Fire a content delete event</dfn> for |entry| (a [=content index entry=]), [=fire a functional event=] named
+    "<i>contentdelete</i>" using {{ContentIndexEvent}} on |entry|'s [=content index entry/service worker registration=] with
+    the following properties:
+      : {{ContentIndexEvent/id}}
+      :: |entry|'s [=content index entry/description=]'s {{ContentDescription/id}}.
   </div>
 
 API {#api}
@@ -208,10 +225,17 @@ interface ContentIndex {
 
     1. Let |registration| be the [=context object=]'s [=ContentIndex/service worker registration=].
     1. Let |contentIndexEntries| be |registration|'s [=content index entries=].
-    1. TODO: Validate |description|.
+    1. If either of |description|'s {{ContentDescription/id}}, {{ContentDescription/title}},
+        {{ContentDescription/description}}, or {{ContentDescription/launchUrl}} is an empty [=/string=], [=reject=]
+        |promise| with a {{TypeError}} and abort these steps.
+    1. Let |launchURL| be the result of [=parsing=] |description|'s {{ContentDescription/launchUrl}} with
+        [=context object=]'s [=relevant settings object=]'s [=API base URL=].
+    1. TODO: check |launchURL| is controlled by the |registration|.
     1. Let |entry| be a new [=/content index entry=] with:
         : [=content index entry/description=]
         :: |description|.
+        : [=content index entry/launch url=]
+        :: |launchURL|
         : [=content index entry/service worker registration=]
         :: |registration|.
     1. Let |id| be |description|'s {{ContentDescription/id}}.
