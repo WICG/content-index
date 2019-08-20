@@ -4,7 +4,7 @@ Shortname: content-index
 Level: 1
 Status: ED
 Group: wicg
-URL: https://rayankans.github.io/content-index
+URL: https://rayankans.github.io/content-index/spec/
 Editor: Peter Beverloo, Google, beverloo@google.com
 Editor: Rayan Kanso, Google, rayankans@google.com
 Abstract: An API for websites to register their offline enabled content with the browser.
