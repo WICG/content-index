@@ -111,7 +111,8 @@ Algorithms {#algorithms}
     To <dfn>delete a content index entry</dfn> for |entry| (a [=content index entry=]), run these steps:
 
     1. Let |id| be |entry|'s [=content index entry/description=]'s {{ContentDescription/id}}.
-    1. Let |contentIndexEntries| be |entry|'s [=content index entry/description=]'s [=content index entries=].
+    1. Let |contentIndexEntries| be |entry|'s [=content index entry/service worker registration=]'s
+        [=content index entries=].
     1. [=map/Remove=] |contentIndexEntries|[|id|].
     1. [=Fire a content delete event=] for |entry|.
   </div>
@@ -128,7 +129,7 @@ Algorithms {#algorithms}
 ## [=Fire a content delete event=] ## {#fire-content-delete-event-algorithm}
 
   <div algorithm>
-    To <dfn>Fire a content delete event</dfn> for |entry| (a [=content index entry=]), [=fire a functional event=] named
+    To <dfn>fire a content delete event</dfn> for |entry| (a [=content index entry=]), [=fire a functional event=] named
     "<i>contentdelete</i>" using {{ContentIndexEvent}} on |entry|'s [=content index entry/service worker registration=] with
     the following properties:
       : {{ContentIndexEvent/id}}

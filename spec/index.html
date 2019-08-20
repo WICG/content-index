@@ -1215,7 +1215,7 @@ Possible extra rowspan handling
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 450e0499b28bb4c684052ad936ad1e7d36c4eac5" name="generator">
   <link href="https://rayankans.github.io/content-index/spec/" rel="canonical">
-  <meta content="308348a8dcdaf72e0343351263ba9416069f4dd3" name="document-revision">
+  <meta content="824148d06631d4e4a42aff503168f1c50e3ab906" name="document-revision">
 <style>
   .algorithm dl {
     overflow: hidden;
@@ -1659,7 +1659,7 @@ run <a data-link-type="dfn" href="#delete-a-content-index-entry" id="ref-for-del
      <li data-md>
       <p>Let <var>id</var> be <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description④">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id">id</a></code>.</p>
      <li data-md>
-      <p>Let <var>contentIndexEntries</var> be <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑤">description</a>'s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries">content index entries</a>.</p>
+      <p>Let <var>contentIndexEntries</var> be <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration①">service worker registration</a>'s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries">content index entries</a>.</p>
      <li data-md>
       <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove">Remove</a> <var>contentIndexEntries</var>[<var>id</var>].</p>
      <li data-md>
@@ -1677,14 +1677,14 @@ run <a data-link-type="dfn" href="#delete-a-content-index-entry" id="ref-for-del
     </ol>
    </div>
    <h3 class="heading settled" data-level="3.3" id="fire-content-delete-event-algorithm"><span class="secno">3.3. </span><span class="content"><a data-link-type="dfn" href="#fire-a-content-delete-event" id="ref-for-fire-a-content-delete-event①">Fire a content delete event</a></span><a class="self-link" href="#fire-content-delete-event-algorithm"></a></h3>
-   <div class="algorithm" data-algorithm="Fire a content delete event">
-     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="fire-a-content-delete-event">Fire a content delete event</dfn> for <var>entry</var> (a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry④">content index entry</a>), <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#fire-functional-event" id="ref-for-fire-functional-event">fire a functional event</a> named
-    "<i>contentdelete</i>" using <code class="idl"><a data-link-type="idl" href="#contentindexevent" id="ref-for-contentindexevent">ContentIndexEvent</a></code> on <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration①">service worker registration</a> with
+   <div class="algorithm" data-algorithm="fire a content delete event">
+     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="fire-a-content-delete-event">fire a content delete event</dfn> for <var>entry</var> (a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry④">content index entry</a>), <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#fire-functional-event" id="ref-for-fire-functional-event">fire a functional event</a> named
+    "<i>contentdelete</i>" using <code class="idl"><a data-link-type="idl" href="#contentindexevent" id="ref-for-contentindexevent">ContentIndexEvent</a></code> on <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration②">service worker registration</a> with
     the following properties: 
     <dl>
      <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-contentindexevent-id" id="ref-for-dom-contentindexevent-id">id</a></code>
      <dd data-md>
-      <p><var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑥">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id①">id</a></code>.</p>
+      <p><var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑤">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id①">id</a></code>.</p>
     </dl>
    </div>
    <h2 class="heading settled" data-level="4" id="api"><span class="secno">4. </span><span class="content">API</span><a class="self-link" href="#api"></a></h2>
@@ -1763,13 +1763,13 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
       <li data-md>
        <p>Let <var>entry</var> be a new <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry⑤">content index entry</a> with:</p>
        <dl>
-        <dt data-md><a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑦">description</a>
+        <dt data-md><a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑥">description</a>
         <dd data-md>
          <p><var>description</var>.</p>
         <dt data-md><a data-link-type="dfn" href="#content-index-entry-launch-url" id="ref-for-content-index-entry-launch-url①">launch url</a>
         <dd data-md>
          <p><var>launchURL</var></p>
-        <dt data-md><a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration②">service worker registration</a>
+        <dt data-md><a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration③">service worker registration</a>
         <dd data-md>
          <p><var>registration</var>.</p>
        </dl>
@@ -1814,7 +1814,7 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-iterate" id="ref-for-map-iterate">For each</a> id → <var>entry</var> of <var>contentIndexEntries</var>:</p>
        <ol>
         <li data-md>
-         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append">Append</a> <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑧">description</a> to <var>descriptions</var>.</p>
+         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append">Append</a> <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑦">description</a> to <var>descriptions</var>.</p>
        </ol>
       <li data-md>
        <p><a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#resolve-promise" id="ref-for-resolve-promise②">Resolve</a> <var>promise</var> with <var>descriptions</var>.</p>
@@ -2005,7 +2005,7 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
      <li><a href="#dom-contentdescription-description">dict-member for ContentDescription</a><span>, in §4.3</span>
     </ul>
    <li><a href="#display">display</a><span>, in §2.2.1</span>
-   <li><a href="#fire-a-content-delete-event">Fire a content delete event</a><span>, in §3.3</span>
+   <li><a href="#fire-a-content-delete-event">fire a content delete event</a><span>, in §3.3</span>
    <li><a href="#dom-contentindex-getdescriptions">getDescriptions()</a><span>, in §4.3.3</span>
    <li><a href="#dom-contentcategory-homepage">"homepage"</a><span>, in §4.3</span>
    <li><a href="#dom-contentdescription-icons">icons</a><span>, in §4.3</span>
@@ -2488,10 +2488,10 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
    <b><a href="#content-index-entry-description">#content-index-entry-description</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-content-index-entry-description">2.2.1. Display</a> <a href="#ref-for-content-index-entry-description①">(2)</a> <a href="#ref-for-content-index-entry-description②">(3)</a> <a href="#ref-for-content-index-entry-description③">(4)</a>
-    <li><a href="#ref-for-content-index-entry-description④">3.1. Delete a content index entry</a> <a href="#ref-for-content-index-entry-description⑤">(2)</a>
-    <li><a href="#ref-for-content-index-entry-description⑥">3.3. Fire a content delete event</a>
-    <li><a href="#ref-for-content-index-entry-description⑦">4.3.1. add()</a>
-    <li><a href="#ref-for-content-index-entry-description⑧">4.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-content-index-entry-description④">3.1. Delete a content index entry</a>
+    <li><a href="#ref-for-content-index-entry-description⑤">3.3. Fire a content delete event</a>
+    <li><a href="#ref-for-content-index-entry-description⑥">4.3.1. add()</a>
+    <li><a href="#ref-for-content-index-entry-description⑦">4.3.3. getDescriptions()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="content-index-entry-launch-url">
@@ -2505,8 +2505,9 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
    <b><a href="#content-index-entry-service-worker-registration">#content-index-entry-service-worker-registration</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-content-index-entry-service-worker-registration">2.2.1. Display</a>
-    <li><a href="#ref-for-content-index-entry-service-worker-registration①">3.3. Fire a content delete event</a>
-    <li><a href="#ref-for-content-index-entry-service-worker-registration②">4.3.1. add()</a>
+    <li><a href="#ref-for-content-index-entry-service-worker-registration①">3.1. Delete a content index entry</a>
+    <li><a href="#ref-for-content-index-entry-service-worker-registration②">3.3. Fire a content delete event</a>
+    <li><a href="#ref-for-content-index-entry-service-worker-registration③">4.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="display">
