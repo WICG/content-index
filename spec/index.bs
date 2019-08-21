@@ -77,11 +77,11 @@ A [=/service worker registration=] additionally has:
   
     * The UI MUST prominently display the |entry|'s [=content index entry/service worker registration=]'s [=service
         worker registration/scope url=]'s [=url/origin=].
-    * The UI may display |entry|'s [=content index entry/description=]'s {{ContentDescription/title}}.
-    * The UI may display |entry|'s [=content index entry/description=]'s {{ContentDescription/description}}.
-    * The UI may use |entry|'s [=content index entry/description=]'s {{ContentDescription/category}} in display
+    * The UI MAY display |entry|'s [=content index entry/description=]'s {{ContentDescription/title}}.
+    * The UI MAY display |entry|'s [=content index entry/description=]'s {{ContentDescription/description}}.
+    * The UI MAY use |entry|'s [=content index entry/description=]'s {{ContentDescription/category}} in display
         decisions.
-    * The UI may select icons for display from |entry|'s [=content index entry/description=]'s
+    * The UI MAY select icons for display from |entry|'s [=content index entry/description=]'s
         {{ContentDescription/icons}}. Any icon (an {{ImageResource}}) can be [=/fetched=] using a new [=/request=] with
         the following properties:
         : [=request/URL=]
@@ -96,7 +96,7 @@ A [=/service worker registration=] additionally has:
         :: "`no-cors`".
         : [=request/Credentials mode=]
         :: "`include`".
-    * The UI MUST provide a way for the user to delete the underlying content exposed by the UI, in which case
+    * The UI SHOULD provide a way for the user to delete the underlying content exposed by the UI, in which case
         run [=delete a content index entry=] for |entry|.
     * The UI MUST provide a way for the user to activate it (for example by clicking), in which case run
         [=activate a content index entry=] for |entry|.
@@ -124,6 +124,9 @@ Algorithms {#algorithms}
     
     1. Let |browsingContext| be the result of running [=create a new browsing context=].
     1. [=Navigate=] |browsingContext| to |entry|'s [=content index entry/launch url=].
+
+    Issue: Is creating a new Browsing Context the right thing to do here?
+    (<a href="https://github.com/rayankans/content-index/issues/15">issue</a>)
   </div>
 
 ## [=Fire a content delete event=] ## {#fire-content-delete-event-algorithm}
@@ -202,7 +205,7 @@ dictionary ContentDescription {
   required DOMString title;
   required DOMString description;
   required ContentCategory category;
-  required sequence<ImageResource> icons;
+  sequence<ImageResource> icons = [];
   required USVString launchUrl;
 };
 
@@ -284,7 +287,7 @@ dictionary ContentIndexEventInit : ExtendableEventInit {
   required DOMString id;
 };
 
-[Constructor(DOMString type, ContentIndexEventInit id), Exposed=ServiceWorker]
+[Constructor(DOMString type, ContentIndexEventInit init), Exposed=ServiceWorker]
 interface ContentIndexEvent : ExtendableEvent {
   readonly attribute DOMString id;
 };
