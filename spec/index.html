@@ -1215,7 +1215,7 @@ Possible extra rowspan handling
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 450e0499b28bb4c684052ad936ad1e7d36c4eac5" name="generator">
   <link href="https://rayankans.github.io/content-index/spec/" rel="canonical">
-  <meta content="904b8a1f794dcf1b914dd7186e0219cf06ea5e42" name="document-revision">
+  <meta content="6c0626347a533062c52fb63d2f1344bd5da44375" name="document-revision">
 <style>
   .algorithm dl {
     overflow: hidden;
@@ -1491,7 +1491,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Content Index</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-08-21">21 August 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-08-22">22 August 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1528,7 +1528,11 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   <nav data-fill-with="table-of-contents" id="toc">
    <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
    <ol class="toc" role="directory">
-    <li><a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
+    <li>
+     <a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
+     <ol class="toc">
+      <li><a href="#example"><span class="secno">1.1</span> <span class="content">Example</span></a>
+     </ol>
     <li>
      <a href="#infrastructure"><span class="secno">2</span> <span class="content">Infrastructure</span></a>
      <ol class="toc">
@@ -1589,6 +1593,53 @@ allows developers to tell the browser about their specific content.</p>
    <p>The content index allows websites to register their offline enabled content in the browser. This allows the browser to
 improve their offline capabilities and offer content to users to browse through while offline. This data could also be
 used to improve on-device search and augment browsing history.</p>
+   <h3 class="heading settled" data-level="1.1" id="example"><span class="secno">1.1. </span><span class="content">Example</span><a class="self-link" href="#example"></a></h3>
+   <div class="example" id="example-cec543de">
+    <a class="self-link" href="#example-cec543de"></a> Registering an offline news article in a Service Worker. 
+<pre class="lang-js highlight"><c- a>function</c-> deleteArticleResources<c- p>(</c->id<c- p>)</c-> <c- p>{</c->
+  <c- k>return</c-> Promise<c- p>.</c->all<c- p>([</c->
+    caches<c- p>.</c->open<c- p>(</c-><c- t>'offline-articles'</c-><c- p>)</c->
+        <c- p>.</c->then<c- p>(</c->articlesCache <c- p>=></c-> articlesCache<c- p>.</c-><c- k>delete</c-><c- p>(</c-><c- sb>`/article/</c-><c- si>${</c->payload<c- p>.</c->id<c- si>}</c-><c- sb>`</c-><c- p>)),</c->
+    <c- c1>// This is a no-op if the function was called as a result of the</c->
+    <c- c1>// `contentdelete` event.</c->
+    self<c- p>.</c->registration<c- p>.</c->index<c- p>.</c-><c- k>delete</c-><c- p>(</c->id<c- p>),</c->
+  <c- p>]);</c->
+<c- p>}</c->
+    
+self<c- p>.</c->addEventListener<c- p>(</c-><c- t>'activate'</c-><c- p>,</c-> event <c- p>=></c-> <c- p>{</c->
+  <c- c1>// When the Service Worker is activated, remove old content.</c->
+  event<c- p>.</c->waitUntil<c- p>(</c->self<c- p>.</c->registration<c- p>.</c->index<c- p>.</c->getDescriptions<c- p>().</c->then<c- p>(</c->
+      descriptions <c- p>=></c-> Promise<c- p>.</c->all<c- p>(</c->
+          descriptions<c- p>.</c->filter<c- p>(</c->description <c- p>=></c-> shouldRemoveOldArticle<c- p>(</c->description<c- p>))</c->
+                      <c- p>.</c->map<c- p>(</c->description <c- p>=></c-> deleteArticleResources<c- p>(</c->description<c- p>.</c->id<c- p>)))));</c->
+<c- p>});</c->
+    
+self<c- p>.</c->addEventListener<c- p>(</c-><c- t>'push'</c-><c- p>,</c-> event <c- p>=></c-> <c- p>{</c->
+  <c- kr>const</c-> payload <c- o>=</c-> event<c- p>.</c->data<c- p>.</c->json<c- p>();</c->
+
+  <c- c1>// Fetch &amp; store the article, then register it.</c->
+  event<c- p>.</c->waitUntil<c- p>(</c->
+      caches<c- p>.</c->open<c- p>(</c-><c- t>'offline-articles'</c-><c- p>)</c->
+          <c- p>.</c->then<c- p>(</c->articlesCache <c- p>=></c-> articlesCache<c- p>.</c->add<c- p>(</c-><c- sb>`/article/</c-><c- si>${</c->payload<c- p>.</c->id<c- si>}</c-><c- sb>`</c-><c- p>))</c->
+          <c- p>.</c->then<c- p>(()</c-> <c- p>=></c-> <c- p>{</c->
+            self<c- p>.</c->registration<c- p>.</c->index<c- p>.</c->add<c- p>({</c->
+              id<c- o>:</c-> payload<c- p>.</c->id<c- p>,</c->
+              title<c- o>:</c-> payload<c- p>.</c->title<c- p>,</c->
+              description<c- o>:</c-> payload<c- p>.</c->description<c- p>,</c->
+              category<c- o>:</c-> <c- t>'article'</c-><c- p>,</c->
+              icons<c- o>:</c-> payload<c- p>.</c->icons<c- p>,</c->
+              launchUrl<c- o>:</c-> <c- sb>`/article/</c-><c- si>${</c->payload<c- p>.</c->id<c- si>}</c-><c- sb>`</c-><c- p>,</c->
+            <c- p>});</c->
+          <c- p>}));</c->
+<c- p>});</c->
+
+self<c- p>.</c->addEventListener<c- p>(</c-><c- t>'contentdelete'</c-><c- p>,</c-> event <c- p>=></c-> <c- p>{</c->
+  <c- c1>// Clear the underlying content after user-deletion.</c->
+  event<c- p>.</c->waitUntil<c- p>(</c->deleteArticleResources<c- p>(</c->event<c- p>.</c->id<c- p>));</c->
+<c- p>});</c->
+</pre>
+    <p>In the above example, <code>shouldRemoveOldArticle</code> is a developer-defined function.</p>
+   </div>
    <h2 class="heading settled" data-level="2" id="infrastructure"><span class="secno">2. </span><span class="content">Infrastructure</span><a class="self-link" href="#infrastructure"></a></h2>
    <h3 class="heading settled" data-level="2.1" id="service-worker-registration-concept-extensions"><span class="secno">2.1. </span><span class="content">Extensions to service worker registration</span><a class="self-link" href="#service-worker-registration-concept-extensions"></a></h3>
    <p>A <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration" id="ref-for-dfn-service-worker-registration">service worker registration</a> additionally has:</p>

@@ -47,6 +47,58 @@ The content index allows websites to register their offline enabled content in t
 improve their offline capabilities and offer content to users to browse through while offline. This data could also be
 used to improve on-device search and augment browsing history.
 
+## Example ## {#example}
+
+<div class="example">
+  Registering an offline news article in a Service Worker.
+
+  <pre class="lang-js">
+    function deleteArticleResources(id) {
+      return Promise.all([
+        caches.open('offline-articles')
+            .then(articlesCache => articlesCache.delete(`/article/${payload.id}`)),
+        // This is a no-op if the function was called as a result of the
+        // `contentdelete` event.
+        self.registration.index.delete(id),
+      ]);
+    }
+    
+    self.addEventListener('activate', event => {
+      // When the Service Worker is activated, remove old content.
+      event.waitUntil(self.registration.index.getDescriptions().then(
+          descriptions => Promise.all(
+              descriptions.filter(description => shouldRemoveOldArticle(description))
+                          .map(description => deleteArticleResources(description.id)))));
+    });
+    
+    self.addEventListener('push', event => {
+      const payload = event.data.json();
+
+      // Fetch & store the article, then register it.
+      event.waitUntil(
+          caches.open('offline-articles')
+              .then(articlesCache => articlesCache.add(`/article/${payload.id}`))
+              .then(() => {
+                self.registration.index.add({
+                  id: payload.id,
+                  title: payload.title,
+                  description: payload.description,
+                  category: 'article',
+                  icons: payload.icons,
+                  launchUrl: `/article/${payload.id}`,
+                });
+              }));
+    });
+
+    self.addEventListener('contentdelete', event => {
+      // Clear the underlying content after user-deletion.
+      event.waitUntil(deleteArticleResources(event.id));
+    });
+  </pre>
+
+  In the above example, <code>shouldRemoveOldArticle</code> is a developer-defined function.
+</div>
+
 Infrastructure {#infrastructure}
 ================================
 
