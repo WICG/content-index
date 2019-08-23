@@ -47,10 +47,15 @@ The content index allows websites to register their offline enabled content in t
 improve their offline capabilities and offer content to users to browse through while offline. This data could also be
 used to improve on-device search and augment browsing history.
 
+Using the API can help users more easily discover content for the following example use cases:
+
+* A news website prefetching the latest articles in the background.
+* A content streaming app registering downloaded content with the browser.
+
 ## Example ## {#example}
 
 <div class="example">
-  Registering an offline news article in a Service Worker.
+  Registering an offline news article in a [=service worker=].
 
   <pre class="lang-js">
     function deleteArticleResources(id) {
@@ -98,6 +103,17 @@ used to improve on-device search and augment browsing history.
 
   In the above example, <code>shouldRemoveOldArticle</code> is a developer-defined function.
 </div>
+
+Privacy Considerations {#privacy-considerations}
+================================================
+
+Firing the <code>contentdelete</code> event may reveal the user's IP address and can be used for tracking. The user
+agent SHOULD limit tracking by capping the duration of the event. For the same reasons, when [=displaying=] a
+[=content index entry=], it's RECOMMENDED the user agent fetch and store the icons when adding the content.
+
+When firing the <code>contentdelete</code> event, the user agent SHOULD prevent the website from adding new content.
+This prevents spammy websites from re-adding the same content, and the users from being recommended content they just
+deleted.
 
 Infrastructure {#infrastructure}
 ================================
@@ -148,6 +164,12 @@ A [=/service worker registration=] additionally has:
         :: "`no-cors`".
         : [=request/Credentials mode=]
         :: "`include`".
+
+        It's RECOMMENDED that the user agent fetch the icons when the content is being registered, and stored to be
+        accessed when needed.
+
+        Note: This allows the icons to be available when offline, and limits user tracking as mentoned in the privacy
+            section.
     * The UI SHOULD provide a way for the user to delete the underlying content exposed by the UI, in which case
         run [=delete a content index entry=] for |entry|.
     * The UI MUST provide a way for the user to activate it (for example by clicking), in which case run
