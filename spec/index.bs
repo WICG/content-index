@@ -40,12 +40,12 @@ Introduction {#intro}
 
 High quality offline-enabled web content is not easily discoverable by users right now. They would have to know which
 websites work offline or install a PWA to be able to browse through content while offline. This is not a great user
-experience as there is no central point to discover available content. To address this, the spec covers a new API which
+experience as there no entry points to discover available content. To address this, the spec covers a new API which
 allows developers to tell the browser about their specific content.
 
-The content index allows websites to register their offline enabled content in the browser. This allows the browser to
-improve their offline capabilities and offer content to users to browse through while offline. This data could also be
-used to improve on-device search and augment browsing history.
+The content index allows websites to register their offline enabled content with the browser. This allows the browser
+to improve their offline capabilities and offer content to users to browse through while offline. This data could also
+be used to improve on-device search and augment browsing history.
 
 Using the API can help users more easily discover content for the following example use cases:
 
@@ -69,7 +69,7 @@ Using the API can help users more easily discover content for the following exam
     }
     
     self.addEventListener('activate', event => {
-      // When the Service Worker is activated, remove old content.
+      // When the service worker is activated, remove old content.
       event.waitUntil(self.registration.index.getDescriptions().then(
           descriptions => Promise.all(
               descriptions.filter(description => shouldRemoveOldArticle(description))
@@ -92,6 +92,9 @@ Using the API can help users more easily discover content for the following exam
                   icons: payload.icons,
                   launchUrl: `/article/${payload.id}`,
                 });
+              })
+              .then(() => {
+                // Show a notification if urgent. 
               }));
     });
 
@@ -107,9 +110,10 @@ Using the API can help users more easily discover content for the following exam
 Privacy Considerations {#privacy-considerations}
 ================================================
 
-Firing the <code>contentdelete</code> event may reveal the user's IP address and can be used for tracking. The user
-agent SHOULD limit tracking by capping the duration of the event. For the same reasons, when [=displaying=] a
-[=content index entry=], it's RECOMMENDED the user agent fetch and store the icons when adding the content.
+Firing the <code>contentdelete</code> event may reveal the user's IP address after the user has left the page. Exploting
+this can be used for tracking location history. The user agent SHOULD limit tracking by capping the duration of the
+event. For the same reasons, when [=displaying=] a [=content index entry=], it's RECOMMENDED the user agent fetch and
+store the icons when adding the content.
 
 When firing the <code>contentdelete</code> event, the user agent SHOULD prevent the website from adding new content.
 This prevents spammy websites from re-adding the same content, and the users from being recommended content they just
@@ -168,7 +172,7 @@ A [=/service worker registration=] additionally has:
         It's RECOMMENDED that the user agent fetch the icons when the content is being registered, and stored to be
         accessed when needed.
 
-        Note: This allows the icons to be available when offline, and limits user tracking as mentoned in the privacy
+        Note: This allows the icons to be available when offline, and limits user tracking as mentioned in the privacy
             section.
     * The UI SHOULD provide a way for the user to delete the underlying content exposed by the UI, in which case
         run [=delete a content index entry=] for |entry|.
@@ -302,18 +306,22 @@ interface ContentIndex {
     these steps [=in parallel=]:
 
     1. Let |registration| be the [=context object=]'s [=ContentIndex/service worker registration=].
+    1. If |registration|'s [=active worker=] is null, [=reject=] |promise| with a {{TypeError}} and abort these steps.
     1. Let |contentIndexEntries| be |registration|'s [=content index entries=].
     1. If either of |description|'s {{ContentDescription/id}}, {{ContentDescription/title}},
         {{ContentDescription/description}}, or {{ContentDescription/launchUrl}} is an empty [=/string=], [=reject=]
         |promise| with a {{TypeError}} and abort these steps.
-    1. Let |launchURL| be the result of [=parsing=] |description|'s {{ContentDescription/launchUrl}} with
+    1. Let |launchUrl| be the result of [=parsing=] |description|'s {{ContentDescription/launchUrl}} with
         [=context object=]'s [=relevant settings object=]'s [=API base URL=].
-    1. TODO: check |launchURL| is controlled by the |registration|.
+    1. Let |matchedRegistration| be the result of running  [=Match Service Worker Registration=] algorithm with
+        |launchUrl| as its argument.
+    1. If |matchedRegistration| is not equal to |registration|, [=reject=] |promise| with a {{TypeError}} and abort
+        these steps.
     1. Let |entry| be a new [=/content index entry=] with:
         : [=content index entry/description=]
         :: |description|.
         : [=content index entry/launch url=]
-        :: |launchURL|
+        :: |launchUrl|
         : [=content index entry/service worker registration=]
         :: |registration|.
     1. Let |id| be |description|'s {{ContentDescription/id}}.
