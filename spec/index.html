@@ -1213,9 +1213,9 @@ Possible extra rowspan handling
 	}
 </style>
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 450e0499b28bb4c684052ad936ad1e7d36c4eac5" name="generator">
+  <meta content="Bikeshed version cb5a17652cb33dffd20b8b6a876bb811c1f749a9" name="generator">
   <link href="https://rayankans.github.io/content-index/spec/" rel="canonical">
-  <meta content="18d20622567728879b63fb40a8653080722c7894" name="document-revision">
+  <meta content="b2b5d0f362274f55f2c2040142558283ac6a42d0" name="document-revision">
 <style>
   .algorithm dl {
     overflow: hidden;
@@ -1491,13 +1491,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Content Index</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-09-02">2 September 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-09-09">9 September 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
      <dd><a class="u-url" href="https://rayankans.github.io/content-index/spec/">https://rayankans.github.io/content-index/spec/</a>
      <dt>Issue Tracking:
-     <dd><a href="https://github.com/rknoll/content-index/issues/">GitHub</a>
+     <dd><a href="https://github.com/rayankans/content-index/issues/">GitHub</a>
      <dd><a href="#issues-index">Inline In Spec</a>
      <dt class="editor">Editors:
      <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:beverloo@google.com">Peter Beverloo</a> (<span class="p-org org">Google</span>)
@@ -1542,6 +1542,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <a href="#content-index-entry-concept"><span class="secno">3.2</span> <span class="content">Content index entry</span></a>
        <ol class="toc">
         <li><a href="#content-index-entry-display"><span class="secno">3.2.1</span> <span class="content"><span>Display</span></span></a>
+        <li><a href="#content-index-entry-undisplay"><span class="secno">3.2.2</span> <span class="content"><span>Undisplay</span></span></a>
        </ol>
      </ol>
     <li>
@@ -1565,7 +1566,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <ol class="toc">
         <li><a href="#content-index-add"><span class="secno">5.3.1</span> <span class="content"><code class="idl"><span>add()</span></code></span></a>
         <li><a href="#content-index-delete"><span class="secno">5.3.2</span> <span class="content"><code class="idl"><span>delete()</span></code></span></a>
-        <li><a href="#content-index-getdescriptions"><span class="secno">5.3.3</span> <span class="content"><code class="idl"><span>getDescriptions()</span></code></span></a>
+        <li><a href="#content-index-getall"><span class="secno">5.3.3</span> <span class="content"><code class="idl"><span>getAll()</span></code></span></a>
        </ol>
       <li><a href="#content-index-event"><span class="secno">5.4</span> <span class="content"><code class="idl"><span>ContentIndexEvent</span></code></span></a>
      </ol>
@@ -1587,13 +1588,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   </nav>
   <main>
    <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
-   <p>High quality offline-enabled web content is not easily discoverable by users right now. They would have to know which
-websites work offline or install a PWA to be able to browse through content while offline. This is not a great user
-experience as there no entry points to discover available content. To address this, the spec covers a new API which
-allows developers to tell the browser about their specific content.</p>
-   <p>The content index allows websites to register their offline enabled content with the browser. This allows the browser
-to improve their offline capabilities and offer content to users to browse through while offline. This data could also
-be used to improve on-device search and augment browsing history.</p>
+   <p>High quality offline-enabled web content is not easily discoverable by users right now. Users would have to know which
+websites work offline, or they would need to have an installed PWA, to be able to browse through content while offline.
+This is not a great user experience as there no entry points to discover available content. To address this, the spec
+covers a new API which allows developers to tell the browser about their specific content.</p>
+   <p>The content index allows websites to register their offline enabled content with the browser. The browser can then
+improve the website’s offline capabilities and offer content to users to browse through while offline. This data could
+also be used to improve on-device search and augment browsing history.</p>
    <p>Using the API can help users more easily discover content for the following example use cases:</p>
    <ul>
     <li data-md>
@@ -1602,62 +1603,62 @@ be used to improve on-device search and augment browsing history.</p>
      <p>A content streaming app registering downloaded content with the browser.</p>
    </ul>
    <h3 class="heading settled" data-level="1.1" id="example"><span class="secno">1.1. </span><span class="content">Example</span><a class="self-link" href="#example"></a></h3>
-   <div class="example" id="example-9d607175">
-    <a class="self-link" href="#example-9d607175"></a> Registering an offline news article in a <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker" id="ref-for-dfn-service-worker">service worker</a>. 
+   <div class="example" id="example-fc6058b2">
+    <a class="self-link" href="#example-fc6058b2"></a> Registering an offline news article in a <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker" id="ref-for-dfn-service-worker">service worker</a>. 
 <pre class="lang-js highlight"><c- a>function</c-> deleteArticleResources<c- p>(</c->id<c- p>)</c-> <c- p>{</c->
   <c- k>return</c-> Promise<c- p>.</c->all<c- p>([</c->
     caches<c- p>.</c->open<c- p>(</c-><c- t>'offline-articles'</c-><c- p>)</c->
-        <c- p>.</c->then<c- p>(</c->articlesCache <c- p>=></c-> articlesCache<c- p>.</c-><c- k>delete</c-><c- p>(</c-><c- sb>`/article/</c-><c- si>${</c->payload<c- p>.</c->id<c- si>}</c-><c- sb>`</c-><c- p>)),</c->
+        <c- p>.</c->then<c- p>(</c->articlesCache <c- p>=></c-> articlesCache<c- p>.</c-><c- k>delete</c-><c- p>(</c-><c- sb>`/article/</c-><c- si>${</c->id<c- si>}</c-><c- sb>`</c-><c- p>)),</c->
     <c- c1>// This is a no-op if the function was called as a result of the</c->
     <c- c1>// `contentdelete` event.</c->
     self<c- p>.</c->registration<c- p>.</c->index<c- p>.</c-><c- k>delete</c-><c- p>(</c->id<c- p>),</c->
   <c- p>]);</c->
 <c- p>}</c->
-    
+
 self<c- p>.</c->addEventListener<c- p>(</c-><c- t>'activate'</c-><c- p>,</c-> event <c- p>=></c-> <c- p>{</c->
   <c- c1>// When the service worker is activated, remove old content.</c->
-  event<c- p>.</c->waitUntil<c- p>(</c->self<c- p>.</c->registration<c- p>.</c->index<c- p>.</c->getDescriptions<c- p>().</c->then<c- p>(</c->
-      descriptions <c- p>=></c-> Promise<c- p>.</c->all<c- p>(</c->
-          descriptions<c- p>.</c->filter<c- p>(</c->description <c- p>=></c-> shouldRemoveOldArticle<c- p>(</c->description<c- p>))</c->
-                      <c- p>.</c->map<c- p>(</c->description <c- p>=></c-> deleteArticleResources<c- p>(</c->description<c- p>.</c->id<c- p>)))));</c->
+  event<c- p>.</c->waitUntil<c- p>(</c->async <c- a>function</c-><c- p>()</c-> <c- p>{</c->
+    <c- kr>const</c-> descriptions <c- o>=</c-> await self<c- p>.</c->registration<c- p>.</c->index<c- p>.</c->getAll<c- p>();</c->
+    <c- kr>const</c-> oldDescriptions <c- o>=</c->
+        descriptions<c- p>.</c->filter<c- p>(</c->description <c- p>=></c-> shouldRemoveOldArticle<c- p>(</c->description<c- p>));</c->
+    await Promise<c- p>.</c->all<c- p>(</c->
+        oldDescriptions<c- p>.</c->map<c- p>(</c->description <c- p>=></c-> deleteArticleResources<c- p>(</c->description<c- p>.</c->id<c- p>)));</c->
+  <c- p>}());</c->
 <c- p>});</c->
-    
+
 self<c- p>.</c->addEventListener<c- p>(</c-><c- t>'push'</c-><c- p>,</c-> event <c- p>=></c-> <c- p>{</c->
   <c- kr>const</c-> payload <c- o>=</c-> event<c- p>.</c->data<c- p>.</c->json<c- p>();</c->
 
   <c- c1>// Fetch &amp; store the article, then register it.</c->
-  event<c- p>.</c->waitUntil<c- p>(</c->
-      caches<c- p>.</c->open<c- p>(</c-><c- t>'offline-articles'</c-><c- p>)</c->
-          <c- p>.</c->then<c- p>(</c->articlesCache <c- p>=></c-> articlesCache<c- p>.</c->add<c- p>(</c-><c- sb>`/article/</c-><c- si>${</c->payload<c- p>.</c->id<c- si>}</c-><c- sb>`</c-><c- p>))</c->
-          <c- p>.</c->then<c- p>(()</c-> <c- p>=></c-> <c- p>{</c->
-            self<c- p>.</c->registration<c- p>.</c->index<c- p>.</c->add<c- p>({</c->
-              id<c- o>:</c-> payload<c- p>.</c->id<c- p>,</c->
-              title<c- o>:</c-> payload<c- p>.</c->title<c- p>,</c->
-              description<c- o>:</c-> payload<c- p>.</c->description<c- p>,</c->
-              category<c- o>:</c-> <c- t>'article'</c-><c- p>,</c->
-              icons<c- o>:</c-> payload<c- p>.</c->icons<c- p>,</c->
-              launchUrl<c- o>:</c-> <c- sb>`/article/</c-><c- si>${</c->payload<c- p>.</c->id<c- si>}</c-><c- sb>`</c-><c- p>,</c->
-            <c- p>});</c->
-          <c- p>})</c->
-          <c- p>.</c->then<c- p>(()</c-> <c- p>=></c-> <c- p>{</c->
-            <c- c1>// Show a notification if urgent. </c->
-          <c- p>}));</c->
+  event<c- p>.</c->waitUntil<c- p>(</c->async <c- a>function</c-><c- p>()</c-> <c- p>{</c->
+    <c- kr>const</c-> articlesCache <c- o>=</c-> await caches<c- p>.</c->open<c- p>(</c-><c- t>'offline-articles'</c-><c- p>);</c->
+    await articlesCache<c- p>.</c->add<c- p>(</c-><c- sb>`/article/</c-><c- si>${</c->payload<c- p>.</c->id<c- si>}</c-><c- sb>`</c-><c- p>);</c->
+    await self<c- p>.</c->registration<c- p>.</c->index<c- p>.</c->add<c- p>({</c->
+      id<c- o>:</c-> payload<c- p>.</c->id<c- p>,</c->
+      title<c- o>:</c-> payload<c- p>.</c->title<c- p>,</c->
+      description<c- o>:</c-> payload<c- p>.</c->description<c- p>,</c->
+      category<c- o>:</c-> <c- t>'article'</c-><c- p>,</c->
+      icons<c- o>:</c-> payload<c- p>.</c->icons<c- p>,</c->
+      launchUrl<c- o>:</c-> <c- sb>`/article/</c-><c- si>${</c->payload<c- p>.</c->id<c- si>}</c-><c- sb>`</c-><c- p>,</c->
+    <c- p>});</c->
+
+    <c- c1>// Show a notification if urgent.</c->
+  <c- p>}());</c->
 <c- p>});</c->
 
 self<c- p>.</c->addEventListener<c- p>(</c-><c- t>'contentdelete'</c-><c- p>,</c-> event <c- p>=></c-> <c- p>{</c->
   <c- c1>// Clear the underlying content after user-deletion.</c->
-  event<c- p>.</c->waitUntil<c- p>(</c->deleteArticleResources<c- p>(</c->event<c- p>.</c->id<c- p>));</c->
-<c- p>});</c->
+  event<c- p>.</c->waitUntil<c- p>(</c->deleteArticleResources<c- p>(</c->event<c- p>.</c->description<c- p>.</c->id<c- p>));</c->
+<c- p>});</c->    
 </pre>
     <p>In the above example, <code>shouldRemoveOldArticle</code> is a developer-defined function.</p>
    </div>
    <h2 class="heading settled" data-level="2" id="privacy-considerations"><span class="secno">2. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy-considerations"></a></h2>
    <p>Firing the <code>contentdelete</code> event may reveal the user’s IP address after the user has left the page. Exploting
 this can be used for tracking location history. The user agent SHOULD limit tracking by capping the duration of the
-event. For the same reasons, when <a data-link-type="dfn" href="#display" id="ref-for-display">displaying</a> a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry">content index entry</a>, it’s RECOMMENDED the user agent fetch and
-store the icons when adding the content.</p>
+event.</p>
    <p>When firing the <code>contentdelete</code> event, the user agent SHOULD prevent the website from adding new content.
-This prevents spammy websites from re-adding the same content, and the users from being recommended content they just
+This prevents spammy websites from re-adding the same content, and the users from being shown content they just
 deleted.</p>
    <h2 class="heading settled" data-level="3" id="infrastructure"><span class="secno">3. </span><span class="content">Infrastructure</span><a class="self-link" href="#infrastructure"></a></h2>
    <h3 class="heading settled" data-level="3.1" id="service-worker-registration-concept-extensions"><span class="secno">3.1. </span><span class="content">Extensions to service worker registration</span><a class="self-link" href="#service-worker-registration-concept-extensions"></a></h3>
@@ -1665,7 +1666,7 @@ deleted.</p>
    <div>
     <ul>
      <li data-md>
-      <p><dfn class="dfn-paneled" data-dfn-for="service worker registration" data-dfn-type="dfn" data-noexport id="service-worker-registration-content-index-entries">Content index entries</dfn> (a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">map</a>), where each key is a DOMString, and each item is a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry①">content index entry</a>.</p>
+      <p><dfn class="dfn-paneled" data-dfn-for="service worker registration" data-dfn-type="dfn" data-noexport id="service-worker-registration-content-index-entries">Content index entries</dfn> (a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">map</a>), where each key is a DOMString, and each item is a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry">content index entry</a>.</p>
     </ul>
    </div>
    <h3 class="heading settled" data-level="3.2" id="content-index-entry-concept"><span class="secno">3.2. </span><span class="content">Content index entry</span><a class="self-link" href="#content-index-entry-concept"></a></h3>
@@ -1678,64 +1679,48 @@ deleted.</p>
       <p>A <dfn class="dfn-paneled" data-dfn-for="content index entry" data-dfn-type="dfn" data-noexport id="content-index-entry-launch-url">launch url</dfn> (a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url">URL</a>).</p>
      <li data-md>
       <p>A <dfn class="dfn-paneled" data-dfn-for="content index entry" data-dfn-type="dfn" data-noexport id="content-index-entry-service-worker-registration">service worker registration</dfn> (a <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration" id="ref-for-dfn-service-worker-registration①">service worker registration</a>).</p>
+     <li data-md>
+      <p><dfn class="dfn-paneled" data-dfn-for="content index entry" data-dfn-type="dfn" data-noexport id="content-index-entry-icons">icons</dfn> (a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list">list</a> of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response" id="ref-for-concept-response">responses</a>).</p>
     </ul>
    </div>
-   <h4 class="heading settled" data-level="3.2.1" id="content-index-entry-display"><span class="secno">3.2.1. </span><span class="content"><a data-link-type="dfn" href="#display" id="ref-for-display①">Display</a></span><a class="self-link" href="#content-index-entry-display"></a></h4>
+   <h4 class="heading settled" data-level="3.2.1" id="content-index-entry-display"><span class="secno">3.2.1. </span><span class="content"><a data-link-type="dfn" href="#display" id="ref-for-display">Display</a></span><a class="self-link" href="#content-index-entry-display"></a></h4>
+   <p>A <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry①">content index entry</a> can be <a data-link-type="dfn" href="#display" id="ref-for-display①">displayed</a> at any time, as long as it <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists">exists</a> in a <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration" id="ref-for-dfn-service-worker-registration②">service worker registration</a>'s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries">content index entries</a>.</p>
    <div class="algorithm" data-algorithm="display">
-     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="display">display</dfn> a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry②">content index entry</a> (<var>entry</var>) for a given <var>environment</var> (an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a>), the user agent must present a user interface that follows these rules: 
+     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="display">display</dfn> a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry②">content index entry</a> (<var>entry</var>), the user agent must present a user interface that
+    follows these rules: 
     <ul>
      <li data-md>
       <p>The UI MUST prominently display the <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration">service worker registration</a>'s <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-scope-url" id="ref-for-dfn-scope-url">scope url</a>'s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin">origin</a>.</p>
      <li data-md>
-      <p>The UI MAY display <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-title" id="ref-for-dom-contentdescription-title">title</a></code>.</p>
+      <p>The UI MUST display <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-title" id="ref-for-dom-contentdescription-title">title</a></code>.</p>
      <li data-md>
       <p>The UI MAY display <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description①">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-description" id="ref-for-dom-contentdescription-description">description</a></code>.</p>
      <li data-md>
       <p>The UI MAY use <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description②">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-category" id="ref-for-dom-contentdescription-category">category</a></code> in display
 decisions.</p>
      <li data-md>
-      <p>The UI MAY select icons for display from <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description③">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-icons" id="ref-for-dom-contentdescription-icons">icons</a></code>. Any icon (an <code class="idl"><a data-link-type="idl">ImageResource</a></code>) can be <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-fetch" id="ref-for-concept-fetch">fetched</a> using a new <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> with
-the following properties:</p>
-      <dl>
-       <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url" id="ref-for-concept-request-url">URL</a>
-       <dd data-md>
-        <p>The <code class="idl"><a data-link-type="idl">ImageResource</a></code>'s <a data-link-type="dfn">src</a>.</p>
-       <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-client" id="ref-for-concept-request-client">Client</a>
-       <dd data-md>
-        <p><var>environment</var>.</p>
-       <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#request-keepalive-flag" id="ref-for-request-keepalive-flag">Keepalive flag</a>
-       <dd data-md>
-        <p>Set.</p>
-       <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination" id="ref-for-concept-request-destination">Destination</a>
-       <dd data-md>
-        <p>"`image`".</p>
-       <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-mode" id="ref-for-concept-request-mode">Mode</a>
-       <dd data-md>
-        <p>"`no-cors`".</p>
-       <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-credentials-mode" id="ref-for-concept-request-credentials-mode">Credentials mode</a>
-       <dd data-md>
-        <p>"`include`".</p>
-      </dl>
-      <p>It’s RECOMMENDED that the user agent fetch the icons when the content is being registered, and stored to be
-accessed when needed.</p>
-      <p class="note" role="note"><span>Note:</span> This allows the icons to be available when offline, and limits user tracking as mentioned in the privacy
-    section.</p>
+      <p>The UI MAY display any of <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-icons" id="ref-for-content-index-entry-icons">icons</a> as images.</p>
      <li data-md>
-      <p>The UI SHOULD provide a way for the user to delete the underlying content exposed by the UI, in which case
+      <p>The UI SHOULD provide a way for the user to delete the underlying <var>entry</var> exposed by the UI, in which case
 run <a data-link-type="dfn" href="#delete-a-content-index-entry" id="ref-for-delete-a-content-index-entry">delete a content index entry</a> for <var>entry</var>.</p>
      <li data-md>
       <p>The UI MUST provide a way for the user to activate it (for example by clicking), in which case run <a data-link-type="dfn" href="#activate-a-content-index-entry" id="ref-for-activate-a-content-index-entry">activate a content index entry</a> for <var>entry</var>.</p>
     </ul>
    </div>
+   <h4 class="heading settled" data-level="3.2.2" id="content-index-entry-undisplay"><span class="secno">3.2.2. </span><span class="content"><a data-link-type="dfn" href="#undisplay" id="ref-for-undisplay">Undisplay</a></span><a class="self-link" href="#content-index-entry-undisplay"></a></h4>
+   <div class="algorithm" data-algorithm="undisplay"> To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="undisplay">undisplay</dfn> a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry③">content index entry</a> (<var>entry</var>), the user agent must remove all UI associated with
+    running <a data-link-type="dfn" href="#display" id="ref-for-display②">display</a> on <var>entry</var>. </div>
    <h2 class="heading settled" data-level="4" id="algorithms"><span class="secno">4. </span><span class="content">Algorithms</span><a class="self-link" href="#algorithms"></a></h2>
    <h3 class="heading settled" data-level="4.1" id="delete-a-content-index-entry-algorithm"><span class="secno">4.1. </span><span class="content"><a data-link-type="dfn" href="#delete-a-content-index-entry" id="ref-for-delete-a-content-index-entry①">Delete a content index entry</a></span><a class="self-link" href="#delete-a-content-index-entry-algorithm"></a></h3>
    <div class="algorithm" data-algorithm="delete a content index entry">
-     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delete-a-content-index-entry">delete a content index entry</dfn> for <var>entry</var> (a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry③">content index entry</a>), run these steps: 
+     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delete-a-content-index-entry">delete a content index entry</dfn> for <var>entry</var> (a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry④">content index entry</a>), run these steps: 
     <ol>
      <li data-md>
-      <p>Let <var>id</var> be <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description④">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id">id</a></code>.</p>
+      <p><a data-link-type="dfn" href="#undisplay" id="ref-for-undisplay①">Undisplay</a> <var>entry</var>.</p>
      <li data-md>
-      <p>Let <var>contentIndexEntries</var> be <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration①">service worker registration</a>'s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries">content index entries</a>.</p>
+      <p>Let <var>id</var> be <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description③">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id">id</a></code>.</p>
+     <li data-md>
+      <p>Let <var>contentIndexEntries</var> be <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration①">service worker registration</a>'s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries①">content index entries</a>.</p>
      <li data-md>
       <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove">Remove</a> <var>contentIndexEntries</var>[<var>id</var>].</p>
      <li data-md>
@@ -1744,7 +1729,7 @@ run <a data-link-type="dfn" href="#delete-a-content-index-entry" id="ref-for-del
    </div>
    <h3 class="heading settled" data-level="4.2" id="activate-a-content-index-entry-algorithm"><span class="secno">4.2. </span><span class="content"><a data-link-type="dfn" href="#activate-a-content-index-entry" id="ref-for-activate-a-content-index-entry①">Activate a content index entry</a></span><a class="self-link" href="#activate-a-content-index-entry-algorithm"></a></h3>
    <div class="algorithm" data-algorithm="activate a content index entry">
-     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="activate-a-content-index-entry">activate a content index entry</dfn> for <var>entry</var> (a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry④">content index entry</a>), run these steps: 
+     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="activate-a-content-index-entry">activate a content index entry</dfn> for <var>entry</var> (a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry⑤">content index entry</a>), run these steps: 
     <ol>
      <li data-md>
       <p>Let <var>browsingContext</var> be the result of running <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#creating-a-new-browsing-context" id="ref-for-creating-a-new-browsing-context">create a new browsing context</a>.</p>
@@ -1756,13 +1741,13 @@ run <a data-link-type="dfn" href="#delete-a-content-index-entry" id="ref-for-del
    </div>
    <h3 class="heading settled" data-level="4.3" id="fire-content-delete-event-algorithm"><span class="secno">4.3. </span><span class="content"><a data-link-type="dfn" href="#fire-a-content-delete-event" id="ref-for-fire-a-content-delete-event①">Fire a content delete event</a></span><a class="self-link" href="#fire-content-delete-event-algorithm"></a></h3>
    <div class="algorithm" data-algorithm="fire a content delete event">
-     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="fire-a-content-delete-event">fire a content delete event</dfn> for <var>entry</var> (a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry⑤">content index entry</a>), <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#fire-functional-event" id="ref-for-fire-functional-event">fire a functional event</a> named
+     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="fire-a-content-delete-event">fire a content delete event</dfn> for <var>entry</var> (a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry⑥">content index entry</a>), <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#fire-functional-event" id="ref-for-fire-functional-event">fire a functional event</a> named
     "<i>contentdelete</i>" using <code class="idl"><a data-link-type="idl" href="#contentindexevent" id="ref-for-contentindexevent">ContentIndexEvent</a></code> on <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration②">service worker registration</a> with
     the following properties: 
     <dl>
-     <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-contentindexevent-id" id="ref-for-dom-contentindexevent-id">id</a></code>
+     <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-contentindexevent-description" id="ref-for-dom-contentindexevent-description">description</a></code>
      <dd data-md>
-      <p><var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑤">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id①">id</a></code>.</p>
+      <p><var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description④">description</a>.</p>
     </dl>
    </div>
    <h2 class="heading settled" data-level="5" id="api"><span class="secno">5. </span><span class="content">API</span><a class="self-link" href="#api"></a></h2>
@@ -1794,11 +1779,12 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
    <div>
     <p>A <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/ServiceWorker/#serviceworkerregistration" id="ref-for-serviceworkerregistration②">ServiceWorkerRegistration</a></code> has a <dfn class="dfn-paneled" data-dfn-for="ServiceWorkerRegistration" data-dfn-type="dfn" data-noexport id="serviceworkerregistration-content-index">content index</dfn> (a <code class="idl"><a data-link-type="idl" href="#contentindex" id="ref-for-contentindex①">ContentIndex</a></code>), initially a
   new <code class="idl"><a data-link-type="idl" href="#contentindex" id="ref-for-contentindex②">ContentIndex</a></code> whose <a data-link-type="dfn" href="#contentindex-service-worker-registration" id="ref-for-contentindex-service-worker-registration">service worker registration</a> is the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object">context
-  object</a>'s <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration" id="ref-for-dfn-service-worker-registration②">service worker registration</a>.</p>
+  object</a>'s <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration" id="ref-for-dfn-service-worker-registration③">service worker registration</a>.</p>
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ServiceWorkerRegistration" data-dfn-type="attribute" data-export id="dom-serviceworkerregistration-index"><code>index</code></dfn> attribute’s getter must return the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object①">context object</a>'s <a data-link-type="dfn" href="#serviceworkerregistration-content-index" id="ref-for-serviceworkerregistration-content-index">content index</a>.</p>
    </div>
    <h3 class="heading settled" data-level="5.3" id="content-index"><span class="secno">5.3. </span><span class="content"><code class="idl"><a data-link-type="idl" href="#contentindex" id="ref-for-contentindex③">ContentIndex</a></code></span><a class="self-link" href="#content-index"></a></h3>
 <pre class="idl highlight def"><c- b>enum</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="enum" data-export id="enumdef-contentcategory"><code><c- g>ContentCategory</c-></code></dfn> {
+  <dfn class="idl-code" data-dfn-for="ContentCategory" data-dfn-type="enum-value" data-export id="dom-contentcategory"><code><c- s>""</c-></code><a class="self-link" href="#dom-contentcategory"></a></dfn>,
   <dfn class="idl-code" data-dfn-for="ContentCategory" data-dfn-type="enum-value" data-export id="dom-contentcategory-homepage"><code><c- s>"homepage"</c-></code><a class="self-link" href="#dom-contentcategory-homepage"></a></dfn>,
   <dfn class="idl-code" data-dfn-for="ContentCategory" data-dfn-type="enum-value" data-export id="dom-contentcategory-article"><code><c- s>"article"</c-></code><a class="self-link" href="#dom-contentcategory-article"></a></dfn>,
   <dfn class="idl-code" data-dfn-for="ContentCategory" data-dfn-type="enum-value" data-export id="dom-contentcategory-video"><code><c- s>"video"</c-></code><a class="self-link" href="#dom-contentcategory-video"></a></dfn>,
@@ -1809,7 +1795,7 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-contentdescription-id"><code><c- g>id</c-></code></dfn>;
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-contentdescription-title"><code><c- g>title</c-></code></dfn>;
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-contentdescription-description"><code><c- g>description</c-></code></dfn>;
-  <c- b>required</c-> <a class="n" data-link-type="idl-name" href="#enumdef-contentcategory" id="ref-for-enumdef-contentcategory"><c- n>ContentCategory</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="ContentCategory " id="dom-contentdescription-category"><code><c- g>category</c-></code></dfn>;
+  <a class="n" data-link-type="idl-name" href="#enumdef-contentcategory" id="ref-for-enumdef-contentcategory"><c- n>ContentCategory</c-></a> <dfn class="dfn-paneled idl-code" data-default="&quot;&quot;" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="ContentCategory " id="dom-contentdescription-category"><code><c- g>category</c-></code></dfn> = "";
   <c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name"><c- n>ImageResource</c-></a>> <dfn class="dfn-paneled idl-code" data-default="None" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="sequence<ImageResource> " id="dom-contentdescription-icons"><code><c- g>icons</c-></code></dfn> = [];
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString"><c- b>USVString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="USVString " id="dom-contentdescription-launchurl"><code><c- g>launchUrl</c-></code></dfn>;
 };
@@ -1818,11 +1804,11 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="contentindex"><code><c- g>ContentIndex</c-></code></dfn> {
   <c- b>Promise</c->&lt;<c- b>void</c->> <a class="idl-code" data-link-type="method" href="#dom-contentindex-add" id="ref-for-dom-contentindex-add"><c- g>add</c-></a>(<a class="n" data-link-type="idl-name" href="#dictdef-contentdescription" id="ref-for-dictdef-contentdescription①"><c- n>ContentDescription</c-></a> <dfn class="idl-code" data-dfn-for="ContentIndex/add(description)" data-dfn-type="argument" data-export id="dom-contentindex-add-description-description"><code><c- g>description</c-></code><a class="self-link" href="#dom-contentindex-add-description-description"></a></dfn>);
   <c- b>Promise</c->&lt;<c- b>void</c->> <a class="idl-code" data-link-type="method" href="#dom-contentindex-delete" id="ref-for-dom-contentindex-delete"><c- g>delete</c-></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="ContentIndex/delete(id)" data-dfn-type="argument" data-export id="dom-contentindex-delete-id-id"><code><c- g>id</c-></code><a class="self-link" href="#dom-contentindex-delete-id-id"></a></dfn>);
-  <c- b>Promise</c->&lt;<c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name" href="#dictdef-contentdescription" id="ref-for-dictdef-contentdescription②"><c- n>ContentDescription</c-></a>>> <a class="idl-code" data-link-type="method" href="#dom-contentindex-getdescriptions" id="ref-for-dom-contentindex-getdescriptions"><c- g>getDescriptions</c-></a>();
+  <c- b>Promise</c->&lt;<c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name" href="#dictdef-contentdescription" id="ref-for-dictdef-contentdescription②"><c- n>ContentDescription</c-></a>>> <a class="idl-code" data-link-type="method" href="#dom-contentindex-getall" id="ref-for-dom-contentindex-getall"><c- g>getAll</c-></a>();
 };
 </pre>
    <div>
-    <p>A <code class="idl"><a data-link-type="idl" href="#contentindex" id="ref-for-contentindex④">ContentIndex</a></code> has a <dfn class="dfn-paneled" data-dfn-for="ContentIndex" data-dfn-type="dfn" data-noexport id="contentindex-service-worker-registration">service worker registration</dfn> (a <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration" id="ref-for-dfn-service-worker-registration③">service worker registration</a>).</p>
+    <p>A <code class="idl"><a data-link-type="idl" href="#contentindex" id="ref-for-contentindex④">ContentIndex</a></code> has a <dfn class="dfn-paneled" data-dfn-for="ContentIndex" data-dfn-type="dfn" data-noexport id="contentindex-service-worker-registration">service worker registration</dfn> (a <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration" id="ref-for-dfn-service-worker-registration④">service worker registration</a>).</p>
     <h4 class="heading settled" data-level="5.3.1" id="content-index-add"><span class="secno">5.3.1. </span><span class="content"><code class="idl"><a data-link-type="idl" href="#dom-contentindex-add" id="ref-for-dom-contentindex-add①">add()</a></code></span><a class="self-link" href="#content-index-add"></a></h4>
     <div class="algorithm" data-algorithm="add(description)">
       The <dfn class="dfn-paneled idl-code" data-dfn-for="ContentIndex" data-dfn-type="method" data-export id="dom-contentindex-add"><code>add(<var>description</var>)</code></dfn> method, when invoked, must return <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#a-new-promise" id="ref-for-a-new-promise">a new promise</a> <var>promise</var> and run
@@ -1833,20 +1819,57 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
       <li data-md>
        <p>If <var>registration</var>’s <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-active-worker" id="ref-for-dfn-active-worker">active worker</a> is null, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror">TypeError</a></code> and abort these steps.</p>
       <li data-md>
-       <p>Let <var>contentIndexEntries</var> be <var>registration</var>’s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries①">content index entries</a>.</p>
+       <p>If any of <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id①">id</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-title" id="ref-for-dom-contentdescription-title①">title</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-description" id="ref-for-dom-contentdescription-description①">description</a></code>, or <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-launchurl" id="ref-for-dom-contentdescription-launchurl">launchUrl</a></code> is the empty <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string">string</a>, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise①">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror①">TypeError</a></code> and abort these steps.</p>
       <li data-md>
-       <p>If either of <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id②">id</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-title" id="ref-for-dom-contentdescription-title①">title</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-description" id="ref-for-dom-contentdescription-description①">description</a></code>, or <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-launchurl" id="ref-for-dom-contentdescription-launchurl">launchUrl</a></code> is an empty <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string">string</a>, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise①">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror①">TypeError</a></code> and abort these steps.</p>
-      <li data-md>
-       <p>Let <var>launchUrl</var> be the result of <a data-link-type="dfn" href="https://drafts.csswg.org/css-syntax-3/#css-parse-something-according-to-a-css-grammar" id="ref-for-css-parse-something-according-to-a-css-grammar">parsing</a> <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-launchurl" id="ref-for-dom-contentdescription-launchurl①">launchUrl</a></code> with <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object③">context object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object" id="ref-for-relevant-settings-object">relevant settings object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#api-base-url" id="ref-for-api-base-url">API base URL</a>.</p>
+       <p>Let <var>launchUrl</var> be the result of <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">parsing</a> <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-launchurl" id="ref-for-dom-contentdescription-launchurl①">launchUrl</a></code> with <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object③">context object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object" id="ref-for-relevant-settings-object">relevant settings object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#api-base-url" id="ref-for-api-base-url">API base URL</a>.</p>
+       <p class="note" role="note"><span>Note:</span> A new <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration" id="ref-for-dfn-service-worker-registration⑤">service worker registration</a> might be introduced later with a narrower scope.</p>
       <li data-md>
        <p>Let <var>matchedRegistration</var> be the result of running <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#match-service-worker-registration" id="ref-for-match-service-worker-registration">Match Service Worker Registration</a> algorithm with <var>launchUrl</var> as its argument.</p>
       <li data-md>
        <p>If <var>matchedRegistration</var> is not equal to <var>registration</var>, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise②">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②">TypeError</a></code> and abort
 these steps.</p>
       <li data-md>
-       <p>Let <var>entry</var> be a new <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry⑥">content index entry</a> with:</p>
+       <p>Let <var>icons</var> be an empty <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list①">list</a>.</p>
+      <li data-md>
+       <p>Optionally, the user agent MAY select icons to use from <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-icons" id="ref-for-dom-contentdescription-icons">icons</a></code>. In which
+case run the following steps <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-iterate" id="ref-for-list-iterate">for each</a> <var>resource</var> of <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-icons" id="ref-for-dom-contentdescription-icons①">icons</a></code>'
+selected icons:</p>
+       <ol>
+        <li data-md>
+         <p>Let <var>response</var> be the result of awaiting a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-fetch" id="ref-for-concept-fetch">fetch</a> using a new <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> with the following
+properties:</p>
+         <dl>
+          <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url" id="ref-for-concept-request-url">URL</a>
+          <dd data-md>
+           <p><var>resource</var>’s <a data-link-type="dfn">src</a>.</p>
+          <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-client" id="ref-for-concept-request-client">Client</a>
+          <dd data-md>
+           <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object④">context object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object" id="ref-for-relevant-settings-object①">relevant settings object</a>.</p>
+          <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#request-keepalive-flag" id="ref-for-request-keepalive-flag">Keepalive flag</a>
+          <dd data-md>
+           <p>Set.</p>
+          <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination" id="ref-for-concept-request-destination">Destination</a>
+          <dd data-md>
+           <p>"`image`".</p>
+          <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-mode" id="ref-for-concept-request-mode">Mode</a>
+          <dd data-md>
+           <p>"`no-cors`".</p>
+          <dt data-md><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-credentials-mode" id="ref-for-concept-request-credentials-mode">Credentials mode</a>
+          <dd data-md>
+           <p>"`include`".</p>
+         </dl>
+        <li data-md>
+         <p>If <var>response</var> is a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-network-error" id="ref-for-concept-network-error">network error</a>, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise③">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror③">TypeError</a></code> and abort these steps.</p>
+        <li data-md>
+         <p>If <var>response</var> cannot be decoded as an image, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise④">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror④">TypeError</a></code> and abort these
+steps.</p>
+        <li data-md>
+         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append">Append</a> <var>response</var> to <var>icons</var>.</p>
+       </ol>
+      <li data-md>
+       <p>Let <var>entry</var> be a new <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry⑦">content index entry</a> with:</p>
        <dl>
-        <dt data-md><a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑥">description</a>
+        <dt data-md><a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑤">description</a>
         <dd data-md>
          <p><var>description</var>.</p>
         <dt data-md><a data-link-type="dfn" href="#content-index-entry-launch-url" id="ref-for-content-index-entry-launch-url①">launch url</a>
@@ -1855,13 +1878,18 @@ these steps.</p>
         <dt data-md><a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration③">service worker registration</a>
         <dd data-md>
          <p><var>registration</var>.</p>
+        <dt data-md><a data-link-type="dfn" href="#content-index-entry-icons" id="ref-for-content-index-entry-icons①">icons</a>
+        <dd data-md>
+         <p><var>icons</var></p>
        </dl>
       <li data-md>
-       <p>Let <var>id</var> be <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id③">id</a></code>.</p>
+       <p>Let <var>id</var> be <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id②">id</a></code>.</p>
+      <li data-md>
+       <p>Let <var>contentIndexEntries</var> be <var>registration</var>’s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries②">content index entries</a>.</p>
       <li data-md>
        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-set" id="ref-for-map-set">Set</a> <var>contentIndexEntries</var>[<var>id</var>] to <var>entry</var>.</p>
       <li data-md>
-       <p><a data-link-type="dfn" href="#display" id="ref-for-display②">Display</a> <var>entry</var> from the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object④">context object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object" id="ref-for-relevant-settings-object①">relevant settings object</a>.</p>
+       <p>Optionally, the user agent MAY <a data-link-type="dfn" href="#display" id="ref-for-display③">display</a> <var>entry</var>.</p>
       <li data-md>
        <p><a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#resolve-promise" id="ref-for-resolve-promise">Resolve</a> <var>promise</var> with undefined.</p>
      </ol>
@@ -1875,29 +1903,31 @@ these steps.</p>
       <li data-md>
        <p>Let <var>registration</var> be the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object⑤">context object</a>'s <a data-link-type="dfn" href="#contentindex-service-worker-registration" id="ref-for-contentindex-service-worker-registration②">service worker registration</a>.</p>
       <li data-md>
-       <p>Let <var>contentIndexEntries</var> be <var>registration</var>’s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries②">content index entries</a>.</p>
+       <p>Let <var>contentIndexEntries</var> be <var>registration</var>’s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries③">content index entries</a>.</p>
+      <li data-md>
+       <p><a data-link-type="dfn" href="#undisplay" id="ref-for-undisplay②">Undisplay</a> <var>contentIndexEntries</var>[<var>id</var>].</p>
       <li data-md>
        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove①">Remove</a> <var>contentIndexEntries</var>[<var>id</var>].</p>
       <li data-md>
        <p><a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#resolve-promise" id="ref-for-resolve-promise①">Resolve</a> <var>promise</var> with undefined.</p>
      </ol>
     </div>
-    <h4 class="heading settled" data-level="5.3.3" id="content-index-getdescriptions"><span class="secno">5.3.3. </span><span class="content"><code class="idl"><a data-link-type="idl" href="#dom-contentindex-getdescriptions" id="ref-for-dom-contentindex-getdescriptions①">getDescriptions()</a></code></span><a class="self-link" href="#content-index-getdescriptions"></a></h4>
-    <div class="algorithm" data-algorithm="getDescriptions()">
-      The <dfn class="dfn-paneled idl-code" data-dfn-for="ContentIndex" data-dfn-type="method" data-export id="dom-contentindex-getdescriptions"><code>getDescriptions()</code></dfn> method, when invoked, must return <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#a-new-promise" id="ref-for-a-new-promise②">a new promise</a> <var>promise</var> and run these
+    <h4 class="heading settled" data-level="5.3.3" id="content-index-getall"><span class="secno">5.3.3. </span><span class="content"><code class="idl"><a data-link-type="idl" href="#dom-contentindex-getall" id="ref-for-dom-contentindex-getall①">getAll()</a></code></span><a class="self-link" href="#content-index-getall"></a></h4>
+    <div class="algorithm" data-algorithm="getAll()">
+      The <dfn class="dfn-paneled idl-code" data-dfn-for="ContentIndex" data-dfn-type="method" data-export id="dom-contentindex-getall"><code>getAll()</code></dfn> method, when invoked, must return <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#a-new-promise" id="ref-for-a-new-promise②">a new promise</a> <var>promise</var> and run these
     steps <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel②">in parallel</a>: 
      <ol>
       <li data-md>
        <p>Let <var>registration</var> be the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object⑥">context object</a>'s <a data-link-type="dfn" href="#contentindex-service-worker-registration" id="ref-for-contentindex-service-worker-registration③">service worker registration</a>.</p>
       <li data-md>
-       <p>Let <var>contentIndexEntries</var> be <var>registration</var>’s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries③">content index entries</a>.</p>
+       <p>Let <var>contentIndexEntries</var> be <var>registration</var>’s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries④">content index entries</a>.</p>
       <li data-md>
-       <p>Let <var>descriptions</var> be an empty <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list">list</a>.</p>
+       <p>Let <var>descriptions</var> be an empty <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list②">list</a>.</p>
       <li data-md>
        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-iterate" id="ref-for-map-iterate">For each</a> id → <var>entry</var> of <var>contentIndexEntries</var>:</p>
        <ol>
         <li data-md>
-         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append">Append</a> <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑦">description</a> to <var>descriptions</var>.</p>
+         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append①">Append</a> <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑥">description</a> to <var>descriptions</var>.</p>
        </ol>
       <li data-md>
        <p><a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#resolve-promise" id="ref-for-resolve-promise②">Resolve</a> <var>promise</var> with <var>descriptions</var>.</p>
@@ -1906,12 +1936,12 @@ these steps.</p>
    </div>
    <h3 class="heading settled" data-level="5.4" id="content-index-event"><span class="secno">5.4. </span><span class="content"><code class="idl"><a data-link-type="idl" href="#contentindexevent" id="ref-for-contentindexevent②">ContentIndexEvent</a></code></span><a class="self-link" href="#content-index-event"></a></h3>
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-contentindexeventinit"><code><c- g>ContentIndexEventInit</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/ServiceWorker/#dictdef-extendableeventinit" id="ref-for-dictdef-extendableeventinit"><c- n>ExtendableEventInit</c-></a> {
-  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="ContentIndexEventInit" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-contentindexeventinit-id"><code><c- g>id</c-></code><a class="self-link" href="#dom-contentindexeventinit-id"></a></dfn>;
+  <c- b>required</c-> <a class="n" data-link-type="idl-name" href="#dictdef-contentdescription" id="ref-for-dictdef-contentdescription③"><c- n>ContentDescription</c-></a> <dfn class="idl-code" data-dfn-for="ContentIndexEventInit" data-dfn-type="dict-member" data-export data-type="ContentDescription " id="dom-contentindexeventinit-description"><code><c- g>description</c-></code><a class="self-link" href="#dom-contentindexeventinit-description"></a></dfn>;
 };
 
-[<dfn class="idl-code" data-dfn-for="ContentIndexEvent" data-dfn-type="constructor" data-export data-lt="ContentIndexEvent(type, init)" id="dom-contentindexevent-contentindexevent"><code><c- g>Constructor</c-></code><a class="self-link" href="#dom-contentindexevent-contentindexevent"></a></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="ContentIndexEvent/ContentIndexEvent(type, init)" data-dfn-type="argument" data-export id="dom-contentindexevent-contentindexevent-type-init-type"><code><c- g>type</c-></code><a class="self-link" href="#dom-contentindexevent-contentindexevent-type-init-type"></a></dfn>, <a class="n" data-link-type="idl-name" href="#dictdef-contentindexeventinit" id="ref-for-dictdef-contentindexeventinit"><c- n>ContentIndexEventInit</c-></a> <dfn class="idl-code" data-dfn-for="ContentIndexEvent/ContentIndexEvent(type, init)" data-dfn-type="argument" data-export id="dom-contentindexevent-contentindexevent-type-init-init"><code><c- g>init</c-></code><a class="self-link" href="#dom-contentindexevent-contentindexevent-type-init-init"></a></dfn>), <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>ServiceWorker</c->]
+[<dfn class="idl-code" data-dfn-for="ContentIndexEvent" data-dfn-type="constructor" data-export data-lt="ContentIndexEvent(type, init)" id="dom-contentindexevent-contentindexevent"><code><c- g>Constructor</c-></code><a class="self-link" href="#dom-contentindexevent-contentindexevent"></a></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="ContentIndexEvent/ContentIndexEvent(type, init)" data-dfn-type="argument" data-export id="dom-contentindexevent-contentindexevent-type-init-type"><code><c- g>type</c-></code><a class="self-link" href="#dom-contentindexevent-contentindexevent-type-init-type"></a></dfn>, <a class="n" data-link-type="idl-name" href="#dictdef-contentindexeventinit" id="ref-for-dictdef-contentindexeventinit"><c- n>ContentIndexEventInit</c-></a> <dfn class="idl-code" data-dfn-for="ContentIndexEvent/ContentIndexEvent(type, init)" data-dfn-type="argument" data-export id="dom-contentindexevent-contentindexevent-type-init-init"><code><c- g>init</c-></code><a class="self-link" href="#dom-contentindexevent-contentindexevent-type-init-init"></a></dfn>), <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>ServiceWorker</c->]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="contentindexevent"><code><c- g>ContentIndexEvent</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/ServiceWorker/#extendableevent" id="ref-for-extendableevent"><c- n>ExtendableEvent</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="ContentIndexEvent" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-contentindexevent-id"><code><c- g>id</c-></code></dfn>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#dictdef-contentdescription" id="ref-for-dictdef-contentdescription④"><c- n>ContentDescription</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="ContentIndexEvent" data-dfn-type="attribute" data-export data-readonly data-type="ContentDescription" id="dom-contentindexevent-description"><code><c- g>description</c-></code></dfn>;
 };
 </pre>
   </main>
@@ -2064,6 +2094,7 @@ these steps.</p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
+   <li><a href="#dom-contentcategory">""</a><span>, in §5.3</span>
    <li><a href="#activate-a-content-index-entry">activate a content index entry</a><span>, in §4.2</span>
    <li><a href="#dom-contentindex-add">add(description)</a><span>, in §5.3.1</span>
    <li><a href="#dom-contentcategory-article">"article"</a><span>, in §5.3</span>
@@ -2084,21 +2115,22 @@ these steps.</p>
    <li>
     description
     <ul>
+     <li><a href="#dom-contentindexevent-description">attribute for ContentIndexEvent</a><span>, in §5.4</span>
      <li><a href="#content-index-entry-description">dfn for content index entry</a><span>, in §3.2</span>
      <li><a href="#dom-contentdescription-description">dict-member for ContentDescription</a><span>, in §5.3</span>
+     <li><a href="#dom-contentindexeventinit-description">dict-member for ContentIndexEventInit</a><span>, in §5.4</span>
     </ul>
    <li><a href="#display">display</a><span>, in §3.2.1</span>
    <li><a href="#fire-a-content-delete-event">fire a content delete event</a><span>, in §4.3</span>
-   <li><a href="#dom-contentindex-getdescriptions">getDescriptions()</a><span>, in §5.3.3</span>
+   <li><a href="#dom-contentindex-getall">getAll()</a><span>, in §5.3.3</span>
    <li><a href="#dom-contentcategory-homepage">"homepage"</a><span>, in §5.3</span>
-   <li><a href="#dom-contentdescription-icons">icons</a><span>, in §5.3</span>
    <li>
-    id
+    icons
     <ul>
-     <li><a href="#dom-contentindexevent-id">attribute for ContentIndexEvent</a><span>, in §5.4</span>
-     <li><a href="#dom-contentdescription-id">dict-member for ContentDescription</a><span>, in §5.3</span>
-     <li><a href="#dom-contentindexeventinit-id">dict-member for ContentIndexEventInit</a><span>, in §5.4</span>
+     <li><a href="#content-index-entry-icons">dfn for content index entry</a><span>, in §3.2</span>
+     <li><a href="#dom-contentdescription-icons">dict-member for ContentDescription</a><span>, in §5.3</span>
     </ul>
+   <li><a href="#dom-contentdescription-id">id</a><span>, in §5.3</span>
    <li><a href="#dom-serviceworkerregistration-index">index</a><span>, in §5.2</span>
    <li><a href="#dom-contentdescription-launchurl">launchUrl</a><span>, in §5.3</span>
    <li><a href="#content-index-entry-launch-url">launch url</a><span>, in §3.2</span>
@@ -2110,69 +2142,76 @@ these steps.</p>
      <li><a href="#content-index-entry-service-worker-registration">dfn for content index entry</a><span>, in §3.2</span>
     </ul>
    <li><a href="#dom-contentdescription-title">title</a><span>, in §5.3</span>
+   <li><a href="#undisplay">undisplay</a><span>, in §3.2.2</span>
    <li><a href="#dom-contentcategory-video">"video"</a><span>, in §5.3</span>
   </ul>
-  <aside class="dfn-panel" data-for="term-for-css-parse-something-according-to-a-css-grammar">
-   <a href="https://drafts.csswg.org/css-syntax-3/#css-parse-something-according-to-a-css-grammar">https://drafts.csswg.org/css-syntax-3/#css-parse-something-according-to-a-css-grammar</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-css-parse-something-according-to-a-css-grammar">5.3.1. add()</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-context-object">
    <a href="https://dom.spec.whatwg.org/#context-object">https://dom.spec.whatwg.org/#context-object</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-context-object">5.2. Extensions to ServiceWorkerRegistration</a> <a href="#ref-for-context-object①">(2)</a>
     <li><a href="#ref-for-context-object②">5.3.1. add()</a> <a href="#ref-for-context-object③">(2)</a> <a href="#ref-for-context-object④">(3)</a>
     <li><a href="#ref-for-context-object⑤">5.3.2. delete()</a>
-    <li><a href="#ref-for-context-object⑥">5.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-context-object⑥">5.3.3. getAll()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-request-client">
    <a href="https://fetch.spec.whatwg.org/#concept-request-client">https://fetch.spec.whatwg.org/#concept-request-client</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-request-client">3.2.1. Display</a>
+    <li><a href="#ref-for-concept-request-client">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-request-credentials-mode">
    <a href="https://fetch.spec.whatwg.org/#concept-request-credentials-mode">https://fetch.spec.whatwg.org/#concept-request-credentials-mode</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-request-credentials-mode">3.2.1. Display</a>
+    <li><a href="#ref-for-concept-request-credentials-mode">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-request-destination">
    <a href="https://fetch.spec.whatwg.org/#concept-request-destination">https://fetch.spec.whatwg.org/#concept-request-destination</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-request-destination">3.2.1. Display</a>
+    <li><a href="#ref-for-concept-request-destination">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-fetch">
    <a href="https://fetch.spec.whatwg.org/#concept-fetch">https://fetch.spec.whatwg.org/#concept-fetch</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-fetch">3.2.1. Display</a>
+    <li><a href="#ref-for-concept-fetch">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-request-keepalive-flag">
    <a href="https://fetch.spec.whatwg.org/#request-keepalive-flag">https://fetch.spec.whatwg.org/#request-keepalive-flag</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-request-keepalive-flag">3.2.1. Display</a>
+    <li><a href="#ref-for-request-keepalive-flag">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-request-mode">
    <a href="https://fetch.spec.whatwg.org/#concept-request-mode">https://fetch.spec.whatwg.org/#concept-request-mode</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-request-mode">3.2.1. Display</a>
+    <li><a href="#ref-for-concept-request-mode">5.3.1. add()</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-network-error">
+   <a href="https://fetch.spec.whatwg.org/#concept-network-error">https://fetch.spec.whatwg.org/#concept-network-error</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-network-error">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-request">
    <a href="https://fetch.spec.whatwg.org/#concept-request">https://fetch.spec.whatwg.org/#concept-request</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-request">3.2.1. Display</a>
+    <li><a href="#ref-for-concept-request">5.3.1. add()</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-response">
+   <a href="https://fetch.spec.whatwg.org/#concept-response">https://fetch.spec.whatwg.org/#concept-response</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-response">3.2. Content index entry</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-request-url">
    <a href="https://fetch.spec.whatwg.org/#concept-request-url">https://fetch.spec.whatwg.org/#concept-request-url</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-request-url">3.2.1. Display</a>
+    <li><a href="#ref-for-concept-request-url">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-eventhandler">
@@ -2191,12 +2230,6 @@ these steps.</p>
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#creating-a-new-browsing-context">https://html.spec.whatwg.org/multipage/browsers.html#creating-a-new-browsing-context</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-creating-a-new-browsing-context">4.2. Activate a content index entry</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-environment-settings-object">
-   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object">https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-environment-settings-object">3.2.1. Display</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-event-handlers">
@@ -2222,7 +2255,7 @@ these steps.</p>
    <ul>
     <li><a href="#ref-for-in-parallel">5.3.1. add()</a>
     <li><a href="#ref-for-in-parallel①">5.3.2. delete()</a>
-    <li><a href="#ref-for-in-parallel②">5.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-in-parallel②">5.3.3. getAll()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-navigate">
@@ -2240,19 +2273,28 @@ these steps.</p>
   <aside class="dfn-panel" data-for="term-for-list-append">
    <a href="https://infra.spec.whatwg.org/#list-append">https://infra.spec.whatwg.org/#list-append</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-list-append">5.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-list-append">5.3.1. add()</a>
+    <li><a href="#ref-for-list-append①">5.3.3. getAll()</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-map-exists">
+   <a href="https://infra.spec.whatwg.org/#map-exists">https://infra.spec.whatwg.org/#map-exists</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-map-exists">3.2.1. Display</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-map-iterate">
    <a href="https://infra.spec.whatwg.org/#map-iterate">https://infra.spec.whatwg.org/#map-iterate</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-map-iterate">5.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-map-iterate">5.3.3. getAll()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-list">
    <a href="https://infra.spec.whatwg.org/#list">https://infra.spec.whatwg.org/#list</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-list">5.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-list">3.2. Content index entry</a>
+    <li><a href="#ref-for-list①">5.3.1. add()</a>
+    <li><a href="#ref-for-list②">5.3.3. getAll()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-ordered-map">
@@ -2285,13 +2327,13 @@ these steps.</p>
    <ul>
     <li><a href="#ref-for-a-new-promise">5.3.1. add()</a>
     <li><a href="#ref-for-a-new-promise①">5.3.2. delete()</a>
-    <li><a href="#ref-for-a-new-promise②">5.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-a-new-promise②">5.3.3. getAll()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-reject-promise">
    <a href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise">https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-reject-promise">5.3.1. add()</a> <a href="#ref-for-reject-promise①">(2)</a> <a href="#ref-for-reject-promise②">(3)</a>
+    <li><a href="#ref-for-reject-promise">5.3.1. add()</a> <a href="#ref-for-reject-promise①">(2)</a> <a href="#ref-for-reject-promise②">(3)</a> <a href="#ref-for-reject-promise③">(4)</a> <a href="#ref-for-reject-promise④">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-resolve-promise">
@@ -2299,7 +2341,7 @@ these steps.</p>
    <ul>
     <li><a href="#ref-for-resolve-promise">5.3.1. add()</a>
     <li><a href="#ref-for-resolve-promise①">5.3.2. delete()</a>
-    <li><a href="#ref-for-resolve-promise②">5.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-resolve-promise②">5.3.3. getAll()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-extendableevent">
@@ -2367,8 +2409,10 @@ these steps.</p>
    <ul>
     <li><a href="#ref-for-dfn-service-worker-registration">3.1. Extensions to service worker registration</a>
     <li><a href="#ref-for-dfn-service-worker-registration①">3.2. Content index entry</a>
-    <li><a href="#ref-for-dfn-service-worker-registration②">5.2. Extensions to ServiceWorkerRegistration</a>
-    <li><a href="#ref-for-dfn-service-worker-registration③">5.3. ContentIndex</a>
+    <li><a href="#ref-for-dfn-service-worker-registration②">3.2.1. Display</a>
+    <li><a href="#ref-for-dfn-service-worker-registration③">5.2. Extensions to ServiceWorkerRegistration</a>
+    <li><a href="#ref-for-dfn-service-worker-registration④">5.3. ContentIndex</a>
+    <li><a href="#ref-for-dfn-service-worker-registration⑤">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url-origin">
@@ -2383,11 +2427,17 @@ these steps.</p>
     <li><a href="#ref-for-concept-url">3.2. Content index entry</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-url-parser">
+   <a href="https://url.spec.whatwg.org/#concept-url-parser">https://url.spec.whatwg.org/#concept-url-parser</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-url-parser">5.3.1. add()</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-idl-DOMString">
    <a href="https://heycam.github.io/webidl/#idl-DOMString">https://heycam.github.io/webidl/#idl-DOMString</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-DOMString">5.3. ContentIndex</a> <a href="#ref-for-idl-DOMString①">(2)</a> <a href="#ref-for-idl-DOMString②">(3)</a> <a href="#ref-for-idl-DOMString③">(4)</a>
-    <li><a href="#ref-for-idl-DOMString④">5.4. ContentIndexEvent</a> <a href="#ref-for-idl-DOMString⑤">(2)</a> <a href="#ref-for-idl-DOMString⑥">(3)</a>
+    <li><a href="#ref-for-idl-DOMString④">5.4. ContentIndexEvent</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-Exposed">
@@ -2406,7 +2456,7 @@ these steps.</p>
   <aside class="dfn-panel" data-for="term-for-exceptiondef-typeerror">
    <a href="https://heycam.github.io/webidl/#exceptiondef-typeerror">https://heycam.github.io/webidl/#exceptiondef-typeerror</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-exceptiondef-typeerror">5.3.1. add()</a> <a href="#ref-for-exceptiondef-typeerror①">(2)</a> <a href="#ref-for-exceptiondef-typeerror②">(3)</a>
+    <li><a href="#ref-for-exceptiondef-typeerror">5.3.1. add()</a> <a href="#ref-for-exceptiondef-typeerror①">(2)</a> <a href="#ref-for-exceptiondef-typeerror②">(3)</a> <a href="#ref-for-exceptiondef-typeerror③">(4)</a> <a href="#ref-for-exceptiondef-typeerror④">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-USVString">
@@ -2417,11 +2467,6 @@ these steps.</p>
   </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
-   <li>
-    <a data-link-type="biblio">[css-syntax-3]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="term-for-css-parse-something-according-to-a-css-grammar" style="color:initial">parse</span>
-    </ul>
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
@@ -2436,7 +2481,9 @@ these steps.</p>
      <li><span class="dfn-paneled" id="term-for-concept-fetch" style="color:initial">fetch</span>
      <li><span class="dfn-paneled" id="term-for-request-keepalive-flag" style="color:initial">keepalive flag</span>
      <li><span class="dfn-paneled" id="term-for-concept-request-mode" style="color:initial">mode</span>
+     <li><span class="dfn-paneled" id="term-for-concept-network-error" style="color:initial">network error</span>
      <li><span class="dfn-paneled" id="term-for-concept-request" style="color:initial">request</span>
+     <li><span class="dfn-paneled" id="term-for-concept-response" style="color:initial">response</span>
      <li><span class="dfn-paneled" id="term-for-concept-request-url" style="color:initial">url</span>
     </ul>
    <li>
@@ -2445,7 +2492,6 @@ these steps.</p>
      <li><span class="dfn-paneled" id="term-for-eventhandler" style="color:initial">EventHandler</span>
      <li><span class="dfn-paneled" id="term-for-api-base-url" style="color:initial">api base url</span>
      <li><span class="dfn-paneled" id="term-for-creating-a-new-browsing-context" style="color:initial">create a new browsing context</span>
-     <li><span class="dfn-paneled" id="term-for-environment-settings-object" style="color:initial">environment settings object</span>
      <li><span class="dfn-paneled" id="term-for-event-handlers" style="color:initial">event handler</span>
      <li><span class="dfn-paneled" id="term-for-event-handler-event-type" style="color:initial">event handler event type</span>
      <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes" style="color:initial">event handler idl attribute</span>
@@ -2457,7 +2503,8 @@ these steps.</p>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-list-append" style="color:initial">append</span>
-     <li><span class="dfn-paneled" id="term-for-map-iterate" style="color:initial">for each</span>
+     <li><span class="dfn-paneled" id="term-for-map-exists" style="color:initial">exist</span>
+     <li><span class="dfn-paneled" id="term-for-map-iterate" style="color:initial">for each <small>(for map)</small></span>
      <li><span class="dfn-paneled" id="term-for-list" style="color:initial">list</span>
      <li><span class="dfn-paneled" id="term-for-ordered-map" style="color:initial">map</span>
      <li><span class="dfn-paneled" id="term-for-map-remove" style="color:initial">remove</span>
@@ -2491,6 +2538,7 @@ these steps.</p>
     <ul>
      <li><span class="dfn-paneled" id="term-for-concept-url-origin" style="color:initial">origin</span>
      <li><span class="dfn-paneled" id="term-for-concept-url" style="color:initial">url</span>
+     <li><span class="dfn-paneled" id="term-for-concept-url-parser" style="color:initial">url parser</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
@@ -2505,8 +2553,6 @@ these steps.</p>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
-   <dt id="biblio-css-syntax-3">[CSS-SYNTAX-3]
-   <dd>Tab Atkins Jr.; Simon Sapin. <a href="https://www.w3.org/TR/css-syntax-3/">CSS Syntax Module Level 3</a>. 20 February 2014. CR. URL: <a href="https://www.w3.org/TR/css-syntax-3/">https://www.w3.org/TR/css-syntax-3/</a>
    <dt id="biblio-dom">[DOM]
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-fetch">[FETCH]
@@ -2536,6 +2582,7 @@ these steps.</p>
 };
 
 <c- b>enum</c-> <a href="#enumdef-contentcategory"><code><c- g>ContentCategory</c-></code></a> {
+  <a href="#dom-contentcategory"><code><c- s>""</c-></code></a>,
   <a href="#dom-contentcategory-homepage"><code><c- s>"homepage"</c-></code></a>,
   <a href="#dom-contentcategory-article"><code><c- s>"article"</c-></code></a>,
   <a href="#dom-contentcategory-video"><code><c- s>"video"</c-></code></a>,
@@ -2543,10 +2590,10 @@ these steps.</p>
 };
 
 <c- b>dictionary</c-> <a href="#dictdef-contentdescription"><code><c- g>ContentDescription</c-></code></a> {
-  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-contentdescription-id"><code><c- g>id</c-></code></a>;
+  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-contentdescription-id"><code><c- g>id</c-></code></a>;
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-contentdescription-title"><code><c- g>title</c-></code></a>;
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②①"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-contentdescription-description"><code><c- g>description</c-></code></a>;
-  <c- b>required</c-> <a class="n" data-link-type="idl-name" href="#enumdef-contentcategory" id="ref-for-enumdef-contentcategory①"><c- n>ContentCategory</c-></a> <a data-type="ContentCategory " href="#dom-contentdescription-category"><code><c- g>category</c-></code></a>;
+  <a class="n" data-link-type="idl-name" href="#enumdef-contentcategory" id="ref-for-enumdef-contentcategory①"><c- n>ContentCategory</c-></a> <a data-default="&quot;&quot;" data-type="ContentCategory " href="#dom-contentdescription-category"><code><c- g>category</c-></code></a> = "";
   <c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name"><c- n>ImageResource</c-></a>> <a data-default="None" data-type="sequence<ImageResource> " href="#dom-contentdescription-icons"><code><c- g>icons</c-></code></a> = [];
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString①"><c- b>USVString</c-></a> <a data-type="USVString " href="#dom-contentdescription-launchurl"><code><c- g>launchUrl</c-></code></a>;
 };
@@ -2555,16 +2602,16 @@ these steps.</p>
 <c- b>interface</c-> <a href="#contentindex"><code><c- g>ContentIndex</c-></code></a> {
   <c- b>Promise</c->&lt;<c- b>void</c->> <a class="idl-code" data-link-type="method" href="#dom-contentindex-add" id="ref-for-dom-contentindex-add②"><c- g>add</c-></a>(<a class="n" data-link-type="idl-name" href="#dictdef-contentdescription" id="ref-for-dictdef-contentdescription①①"><c- n>ContentDescription</c-></a> <a href="#dom-contentindex-add-description-description"><code><c- g>description</c-></code></a>);
   <c- b>Promise</c->&lt;<c- b>void</c->> <a class="idl-code" data-link-type="method" href="#dom-contentindex-delete" id="ref-for-dom-contentindex-delete②"><c- g>delete</c-></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③①"><c- b>DOMString</c-></a> <a href="#dom-contentindex-delete-id-id"><code><c- g>id</c-></code></a>);
-  <c- b>Promise</c->&lt;<c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name" href="#dictdef-contentdescription" id="ref-for-dictdef-contentdescription②①"><c- n>ContentDescription</c-></a>>> <a class="idl-code" data-link-type="method" href="#dom-contentindex-getdescriptions" id="ref-for-dom-contentindex-getdescriptions②"><c- g>getDescriptions</c-></a>();
+  <c- b>Promise</c->&lt;<c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name" href="#dictdef-contentdescription" id="ref-for-dictdef-contentdescription②①"><c- n>ContentDescription</c-></a>>> <a class="idl-code" data-link-type="method" href="#dom-contentindex-getall" id="ref-for-dom-contentindex-getall②"><c- g>getAll</c-></a>();
 };
 
 <c- b>dictionary</c-> <a href="#dictdef-contentindexeventinit"><code><c- g>ContentIndexEventInit</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/ServiceWorker/#dictdef-extendableeventinit" id="ref-for-dictdef-extendableeventinit①"><c- n>ExtendableEventInit</c-></a> {
-  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④①"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-contentindexeventinit-id"><code><c- g>id</c-></code></a>;
+  <c- b>required</c-> <a class="n" data-link-type="idl-name" href="#dictdef-contentdescription" id="ref-for-dictdef-contentdescription③①"><c- n>ContentDescription</c-></a> <a data-type="ContentDescription " href="#dom-contentindexeventinit-description"><code><c- g>description</c-></code></a>;
 };
 
-[<a href="#dom-contentindexevent-contentindexevent"><code><c- g>Constructor</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤①"><c- b>DOMString</c-></a> <a href="#dom-contentindexevent-contentindexevent-type-init-type"><code><c- g>type</c-></code></a>, <a class="n" data-link-type="idl-name" href="#dictdef-contentindexeventinit" id="ref-for-dictdef-contentindexeventinit①"><c- n>ContentIndexEventInit</c-></a> <a href="#dom-contentindexevent-contentindexevent-type-init-init"><code><c- g>init</c-></code></a>), <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①①"><c- g>Exposed</c-></a>=<c- n>ServiceWorker</c->]
+[<a href="#dom-contentindexevent-contentindexevent"><code><c- g>Constructor</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④①"><c- b>DOMString</c-></a> <a href="#dom-contentindexevent-contentindexevent-type-init-type"><code><c- g>type</c-></code></a>, <a class="n" data-link-type="idl-name" href="#dictdef-contentindexeventinit" id="ref-for-dictdef-contentindexeventinit①"><c- n>ContentIndexEventInit</c-></a> <a href="#dom-contentindexevent-contentindexevent-type-init-init"><code><c- g>init</c-></code></a>), <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①①"><c- g>Exposed</c-></a>=<c- n>ServiceWorker</c->]
 <c- b>interface</c-> <a href="#contentindexevent"><code><c- g>ContentIndexEvent</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/ServiceWorker/#extendableevent" id="ref-for-extendableevent①"><c- n>ExtendableEvent</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-contentindexevent-id"><code><c- g>id</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#dictdef-contentdescription" id="ref-for-dictdef-contentdescription④①"><c- n>ContentDescription</c-></a> <a data-readonly data-type="ContentDescription" href="#dom-contentindexevent-description"><code><c- g>description</c-></code></a>;
 };
 
 </pre>
@@ -2576,32 +2623,33 @@ these steps.</p>
   <aside class="dfn-panel" data-for="service-worker-registration-content-index-entries">
    <b><a href="#service-worker-registration-content-index-entries">#service-worker-registration-content-index-entries</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-service-worker-registration-content-index-entries">4.1. Delete a content index entry</a>
-    <li><a href="#ref-for-service-worker-registration-content-index-entries①">5.3.1. add()</a>
-    <li><a href="#ref-for-service-worker-registration-content-index-entries②">5.3.2. delete()</a>
-    <li><a href="#ref-for-service-worker-registration-content-index-entries③">5.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-service-worker-registration-content-index-entries">3.2.1. Display</a>
+    <li><a href="#ref-for-service-worker-registration-content-index-entries①">4.1. Delete a content index entry</a>
+    <li><a href="#ref-for-service-worker-registration-content-index-entries②">5.3.1. add()</a>
+    <li><a href="#ref-for-service-worker-registration-content-index-entries③">5.3.2. delete()</a>
+    <li><a href="#ref-for-service-worker-registration-content-index-entries④">5.3.3. getAll()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="content-index-entry">
    <b><a href="#content-index-entry">#content-index-entry</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-content-index-entry">2. Privacy Considerations</a>
-    <li><a href="#ref-for-content-index-entry①">3.1. Extensions to service worker registration</a>
-    <li><a href="#ref-for-content-index-entry②">3.2.1. Display</a>
-    <li><a href="#ref-for-content-index-entry③">4.1. Delete a content index entry</a>
-    <li><a href="#ref-for-content-index-entry④">4.2. Activate a content index entry</a>
-    <li><a href="#ref-for-content-index-entry⑤">4.3. Fire a content delete event</a>
-    <li><a href="#ref-for-content-index-entry⑥">5.3.1. add()</a>
+    <li><a href="#ref-for-content-index-entry">3.1. Extensions to service worker registration</a>
+    <li><a href="#ref-for-content-index-entry①">3.2.1. Display</a> <a href="#ref-for-content-index-entry②">(2)</a>
+    <li><a href="#ref-for-content-index-entry③">3.2.2. Undisplay</a>
+    <li><a href="#ref-for-content-index-entry④">4.1. Delete a content index entry</a>
+    <li><a href="#ref-for-content-index-entry⑤">4.2. Activate a content index entry</a>
+    <li><a href="#ref-for-content-index-entry⑥">4.3. Fire a content delete event</a>
+    <li><a href="#ref-for-content-index-entry⑦">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="content-index-entry-description">
    <b><a href="#content-index-entry-description">#content-index-entry-description</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-content-index-entry-description">3.2.1. Display</a> <a href="#ref-for-content-index-entry-description①">(2)</a> <a href="#ref-for-content-index-entry-description②">(3)</a> <a href="#ref-for-content-index-entry-description③">(4)</a>
-    <li><a href="#ref-for-content-index-entry-description④">4.1. Delete a content index entry</a>
-    <li><a href="#ref-for-content-index-entry-description⑤">4.3. Fire a content delete event</a>
-    <li><a href="#ref-for-content-index-entry-description⑥">5.3.1. add()</a>
-    <li><a href="#ref-for-content-index-entry-description⑦">5.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-content-index-entry-description">3.2.1. Display</a> <a href="#ref-for-content-index-entry-description①">(2)</a> <a href="#ref-for-content-index-entry-description②">(3)</a>
+    <li><a href="#ref-for-content-index-entry-description③">4.1. Delete a content index entry</a>
+    <li><a href="#ref-for-content-index-entry-description④">4.3. Fire a content delete event</a>
+    <li><a href="#ref-for-content-index-entry-description⑤">5.3.1. add()</a>
+    <li><a href="#ref-for-content-index-entry-description⑥">5.3.3. getAll()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="content-index-entry-launch-url">
@@ -2620,12 +2668,27 @@ these steps.</p>
     <li><a href="#ref-for-content-index-entry-service-worker-registration③">5.3.1. add()</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="content-index-entry-icons">
+   <b><a href="#content-index-entry-icons">#content-index-entry-icons</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-content-index-entry-icons">3.2.1. Display</a>
+    <li><a href="#ref-for-content-index-entry-icons①">5.3.1. add()</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="display">
    <b><a href="#display">#display</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-display">2. Privacy Considerations</a>
-    <li><a href="#ref-for-display①">3.2.1. Display</a>
-    <li><a href="#ref-for-display②">5.3.1. add()</a>
+    <li><a href="#ref-for-display">3.2.1. Display</a> <a href="#ref-for-display①">(2)</a>
+    <li><a href="#ref-for-display②">3.2.2. Undisplay</a>
+    <li><a href="#ref-for-display③">5.3.1. add()</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="undisplay">
+   <b><a href="#undisplay">#undisplay</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-undisplay">3.2.2. Undisplay</a>
+    <li><a href="#ref-for-undisplay①">4.1. Delete a content index entry</a>
+    <li><a href="#ref-for-undisplay②">5.3.2. delete()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="delete-a-content-index-entry">
@@ -2678,14 +2741,14 @@ these steps.</p>
    <ul>
     <li><a href="#ref-for-dictdef-contentdescription">3.2. Content index entry</a>
     <li><a href="#ref-for-dictdef-contentdescription①">5.3. ContentIndex</a> <a href="#ref-for-dictdef-contentdescription②">(2)</a>
+    <li><a href="#ref-for-dictdef-contentdescription③">5.4. ContentIndexEvent</a> <a href="#ref-for-dictdef-contentdescription④">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-contentdescription-id">
    <b><a href="#dom-contentdescription-id">#dom-contentdescription-id</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-contentdescription-id">4.1. Delete a content index entry</a>
-    <li><a href="#ref-for-dom-contentdescription-id①">4.3. Fire a content delete event</a>
-    <li><a href="#ref-for-dom-contentdescription-id②">5.3.1. add()</a> <a href="#ref-for-dom-contentdescription-id③">(2)</a>
+    <li><a href="#ref-for-dom-contentdescription-id①">5.3.1. add()</a> <a href="#ref-for-dom-contentdescription-id②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-contentdescription-title">
@@ -2711,7 +2774,7 @@ these steps.</p>
   <aside class="dfn-panel" data-for="dom-contentdescription-icons">
    <b><a href="#dom-contentdescription-icons">#dom-contentdescription-icons</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-contentdescription-icons">3.2.1. Display</a>
+    <li><a href="#ref-for-dom-contentdescription-icons">5.3.1. add()</a> <a href="#ref-for-dom-contentdescription-icons①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-contentdescription-launchurl">
@@ -2733,7 +2796,7 @@ these steps.</p>
     <li><a href="#ref-for-contentindex-service-worker-registration">5.2. Extensions to ServiceWorkerRegistration</a>
     <li><a href="#ref-for-contentindex-service-worker-registration①">5.3.1. add()</a>
     <li><a href="#ref-for-contentindex-service-worker-registration②">5.3.2. delete()</a>
-    <li><a href="#ref-for-contentindex-service-worker-registration③">5.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-contentindex-service-worker-registration③">5.3.3. getAll()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-contentindex-add">
@@ -2750,11 +2813,11 @@ these steps.</p>
     <li><a href="#ref-for-dom-contentindex-delete①">5.3.2. delete()</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-contentindex-getdescriptions">
-   <b><a href="#dom-contentindex-getdescriptions">#dom-contentindex-getdescriptions</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-contentindex-getall">
+   <b><a href="#dom-contentindex-getall">#dom-contentindex-getall</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-contentindex-getdescriptions">5.3. ContentIndex</a>
-    <li><a href="#ref-for-dom-contentindex-getdescriptions①">5.3.3. getDescriptions()</a>
+    <li><a href="#ref-for-dom-contentindex-getall">5.3. ContentIndex</a>
+    <li><a href="#ref-for-dom-contentindex-getall①">5.3.3. getAll()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dictdef-contentindexeventinit">
@@ -2771,10 +2834,10 @@ these steps.</p>
     <li><a href="#ref-for-contentindexevent②">5.4. ContentIndexEvent</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-contentindexevent-id">
-   <b><a href="#dom-contentindexevent-id">#dom-contentindexevent-id</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-contentindexevent-description">
+   <b><a href="#dom-contentindexevent-description">#dom-contentindexevent-description</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-contentindexevent-id">4.3. Fire a content delete event</a>
+    <li><a href="#ref-for-dom-contentindexevent-description">4.3. Fire a content delete event</a>
    </ul>
   </aside>
 <script>/* script-var-click-highlighting */

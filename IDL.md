@@ -3,6 +3,7 @@
 ## Definition of ContentIndex
 ```webidl
 enum ContentCategory {
+    "",
     "homepage",
     "article",
     "video",
@@ -14,15 +15,15 @@ dictionary ContentDescription {
     required DOMString id;
     required DOMString title;
     required DOMString description;
-    required ContentCategory category;
-    sequence<ImageResource> icons;
+    ContentCategory category = "";
+    sequence<ImageResource> icons = [];
     required USVString launchUrl;
 };
 
 interface ContentIndex {
     Promise<void> add(ContentDescription description);
     Promise<void> delete(DOMString id);
-    Promise<sequence<ContentDescription>> getDescriptions();
+    Promise<sequence<ContentDescription>> getAll();
 };
 ```
 
@@ -36,13 +37,13 @@ partial interface ServiceWorkerRegistration {
 ## Additions to the Service Worker Global Scope
 ``webidl
 dictionary ContentIndexEventInit : ExtendableEventInit {
-    required DOMString id;
+    required ContentDescription description;
 };
 
 [
-   Constructor(DOMString type, ContentIndexEventInit id),
+   Constructor(DOMString type, ContentIndexEventInit init),
 ] interface ContentIndexEvent : ExtendableEvent {
-    readonly attribute DOMString id;
+    readonly attribute ContentDescription description;
 };
 
 partial interface ServiceWorkerGlobalScope {
