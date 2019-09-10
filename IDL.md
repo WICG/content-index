@@ -37,13 +37,13 @@ partial interface ServiceWorkerRegistration {
 ## Additions to the Service Worker Global Scope
 ``webidl
 dictionary ContentIndexEventInit : ExtendableEventInit {
-    required ContentDescription description;
+    required DOMString id;
 };
 
 [
    Constructor(DOMString type, ContentIndexEventInit init),
 ] interface ContentIndexEvent : ExtendableEvent {
-    readonly attribute ContentDescription description;
+    readonly attribute DOMString id;
 };
 
 partial interface ServiceWorkerGlobalScope {

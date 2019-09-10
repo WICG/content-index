@@ -96,7 +96,7 @@ await swRegistration.index.add({
 await swRegistration.index.delete('article-123');
 
 // List all entries in the content index
-const entries = await swRegistration.index.getDescriptions();
+const entries = await swRegistration.index.getAll();
 ```
 
 ### Combined with other APIs
