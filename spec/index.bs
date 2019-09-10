@@ -129,6 +129,8 @@ A [=/service worker registration=] additionally has:
   <div dfn-for="service worker registration">
     * <dfn>Content index entries</dfn> (a [=map=]), where each key is a DOMString, and each item is a
         [=content index entry=].
+    * An <dfn>entry edit queue</dfn> (a [=parallel queue=]), initially the result of
+        [=starting a new parallel queue=].
   </div>
   
   ## Content index entry ## {#content-index-entry-concept}
@@ -179,12 +181,14 @@ Algorithms {#algorithms}
   <div algorithm>
     To <dfn>delete a content index entry</dfn> for |entry| (a [=content index entry=]), run these steps:
 
-    1. [=Undisplay=] |entry|.
     1. Let |id| be |entry|'s [=content index entry/description=]'s {{ContentDescription/id}}.
     1. Let |contentIndexEntries| be |entry|'s [=content index entry/service worker registration=]'s
         [=content index entries=].
-    1. [=map/Remove=] |contentIndexEntries|[|id|].
-    1. [=Fire a content delete event=] for |entry|.
+    1. [=Enqueue the following steps=] to |entry|'s [=content index entry/service worker registration=]'s
+        [=entry edit queue=]:
+        1. [=Undisplay=] |entry|.
+        1. [=map/Remove=] |contentIndexEntries|[|id|].
+        1. [=Fire a content delete event=] for |entry|.
   </div>
 
 ## [=Activate a content index entry=] ## {#activate-a-content-index-entry-algorithm}
@@ -345,9 +349,10 @@ interface ContentIndex {
         :: |icons|
     1. Let |id| be |description|'s {{ContentDescription/id}}.
     1. Let |contentIndexEntries| be |registration|'s [=content index entries=].
-    1. [=map/Set=] |contentIndexEntries|[|id|] to |entry|.
-    1. Optionally, the user agent MAY [=display=] |entry|.
-    1. [=Resolve=] |promise| with undefined.
+    1. [=Enqueue the following steps=] to |registration|'s [=entry edit queue=]:
+        1. [=map/Set=] |contentIndexEntries|[|id|] to |entry|.
+        1. Optionally, the user agent MAY [=display=] |entry|.
+        1. [=Resolve=] |promise| with undefined.
 
     Note: Adding a description with an existing ID would overwrite the previous value.
   </div>
@@ -360,9 +365,10 @@ interface ContentIndex {
 
     1. Let |registration| be the [=context object=]'s [=ContentIndex/service worker registration=].
     1. Let |contentIndexEntries| be |registration|'s [=content index entries=].
-    1. [=Undisplay=] |contentIndexEntries|[|id|].
-    1. [=map/Remove=] |contentIndexEntries|[|id|].
-    1. [=Resolve=] |promise| with undefined.
+    1. [=Enqueue the following steps=] to |registration|'s [=entry edit queue=]:
+        1. [=Undisplay=] |contentIndexEntries|[|id|].
+        1. [=map/Remove=] |contentIndexEntries|[|id|].
+        1. [=Resolve=] |promise| with undefined.
   </div>
 
   ### {{ContentIndex/getAll()}} ### {#content-index-getall}
@@ -374,9 +380,10 @@ interface ContentIndex {
     1. Let |registration| be the [=context object=]'s [=ContentIndex/service worker registration=].
     1. Let |contentIndexEntries| be |registration|'s [=content index entries=].
     1. Let |descriptions| be an empty [=/list=].
-    1. [=map/For each=] id → |entry| of |contentIndexEntries|:
-        1. [=list/Append=] |entry|'s [=content index entry/description=] to |descriptions|.
-    1. [=Resolve=] |promise| with |descriptions|.
+    1. [=Enqueue the following steps=] to |registration|'s [=entry edit queue=]:
+        1. [=map/For each=] id → |entry| of |contentIndexEntries|:
+            1. [=list/Append=] |entry|'s [=content index entry/description=] to |descriptions|.
+        1. [=Resolve=] |promise| with |descriptions|.
   </div>
 
 </div>

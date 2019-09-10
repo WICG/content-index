@@ -1215,7 +1215,7 @@ Possible extra rowspan handling
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version cb5a17652cb33dffd20b8b6a876bb811c1f749a9" name="generator">
   <link href="https://rayankans.github.io/content-index/spec/" rel="canonical">
-  <meta content="26ea8eb834cd0fab086571d44d06dc0190fb0a42" name="document-revision">
+  <meta content="3edbbe7f38f8e70023d90cf39db3e41181e0b045" name="document-revision">
 <style>
   .algorithm dl {
     overflow: hidden;
@@ -1667,6 +1667,8 @@ deleted.</p>
     <ul>
      <li data-md>
       <p><dfn class="dfn-paneled" data-dfn-for="service worker registration" data-dfn-type="dfn" data-noexport id="service-worker-registration-content-index-entries">Content index entries</dfn> (a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">map</a>), where each key is a DOMString, and each item is a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry">content index entry</a>.</p>
+     <li data-md>
+      <p>An <dfn class="dfn-paneled" data-dfn-for="service worker registration" data-dfn-type="dfn" data-noexport id="service-worker-registration-entry-edit-queue">entry edit queue</dfn> (a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#parallel-queue" id="ref-for-parallel-queue">parallel queue</a>), initially the result of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#starting-a-new-parallel-queue" id="ref-for-starting-a-new-parallel-queue">starting a new parallel queue</a>.</p>
     </ul>
    </div>
    <h3 class="heading settled" data-level="3.2" id="content-index-entry-concept"><span class="secno">3.2. </span><span class="content">Content index entry</span><a class="self-link" href="#content-index-entry-concept"></a></h3>
@@ -1717,15 +1719,19 @@ run <a data-link-type="dfn" href="#delete-a-content-index-entry" id="ref-for-del
      To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delete-a-content-index-entry">delete a content index entry</dfn> for <var>entry</var> (a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry④">content index entry</a>), run these steps: 
     <ol>
      <li data-md>
-      <p><a data-link-type="dfn" href="#undisplay" id="ref-for-undisplay①">Undisplay</a> <var>entry</var>.</p>
-     <li data-md>
       <p>Let <var>id</var> be <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description③">description</a>'s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id">id</a></code>.</p>
      <li data-md>
       <p>Let <var>contentIndexEntries</var> be <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration①">service worker registration</a>'s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries①">content index entries</a>.</p>
      <li data-md>
-      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove">Remove</a> <var>contentIndexEntries</var>[<var>id</var>].</p>
-     <li data-md>
-      <p><a data-link-type="dfn" href="#fire-a-content-delete-event" id="ref-for-fire-a-content-delete-event">Fire a content delete event</a> for <var>entry</var>.</p>
+      <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#enqueue-the-following-steps" id="ref-for-enqueue-the-following-steps">Enqueue the following steps</a> to <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration②">service worker registration</a>'s <a data-link-type="dfn" href="#service-worker-registration-entry-edit-queue" id="ref-for-service-worker-registration-entry-edit-queue">entry edit queue</a>:</p>
+      <ol>
+       <li data-md>
+        <p><a data-link-type="dfn" href="#undisplay" id="ref-for-undisplay①">Undisplay</a> <var>entry</var>.</p>
+       <li data-md>
+        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove">Remove</a> <var>contentIndexEntries</var>[<var>id</var>].</p>
+       <li data-md>
+        <p><a data-link-type="dfn" href="#fire-a-content-delete-event" id="ref-for-fire-a-content-delete-event">Fire a content delete event</a> for <var>entry</var>.</p>
+      </ol>
     </ol>
    </div>
    <h3 class="heading settled" data-level="4.2" id="activate-a-content-index-entry-algorithm"><span class="secno">4.2. </span><span class="content"><a data-link-type="dfn" href="#activate-a-content-index-entry" id="ref-for-activate-a-content-index-entry①">Activate a content index entry</a></span><a class="self-link" href="#activate-a-content-index-entry-algorithm"></a></h3>
@@ -1743,7 +1749,7 @@ run <a data-link-type="dfn" href="#delete-a-content-index-entry" id="ref-for-del
    <h3 class="heading settled" data-level="4.3" id="fire-content-delete-event-algorithm"><span class="secno">4.3. </span><span class="content"><a data-link-type="dfn" href="#fire-a-content-delete-event" id="ref-for-fire-a-content-delete-event①">Fire a content delete event</a></span><a class="self-link" href="#fire-content-delete-event-algorithm"></a></h3>
    <div class="algorithm" data-algorithm="fire a content delete event">
      To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="fire-a-content-delete-event">fire a content delete event</dfn> for <var>entry</var> (a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry⑥">content index entry</a>), <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#fire-functional-event" id="ref-for-fire-functional-event">fire a functional event</a> named
-    "<i>contentdelete</i>" using <code class="idl"><a data-link-type="idl" href="#contentindexevent" id="ref-for-contentindexevent">ContentIndexEvent</a></code> on <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration②">service worker registration</a> with
+    "<i>contentdelete</i>" using <code class="idl"><a data-link-type="idl" href="#contentindexevent" id="ref-for-contentindexevent">ContentIndexEvent</a></code> on <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration③">service worker registration</a> with
     the following properties: 
     <dl>
      <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-contentindexevent-id" id="ref-for-dom-contentindexevent-id">id</a></code>
@@ -1876,7 +1882,7 @@ steps.</p>
         <dt data-md><a data-link-type="dfn" href="#content-index-entry-launch-url" id="ref-for-content-index-entry-launch-url①">launch url</a>
         <dd data-md>
          <p><var>launchUrl</var></p>
-        <dt data-md><a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration③">service worker registration</a>
+        <dt data-md><a data-link-type="dfn" href="#content-index-entry-service-worker-registration" id="ref-for-content-index-entry-service-worker-registration④">service worker registration</a>
         <dd data-md>
          <p><var>registration</var>.</p>
         <dt data-md><a data-link-type="dfn" href="#content-index-entry-icons" id="ref-for-content-index-entry-icons①">icons</a>
@@ -1888,11 +1894,15 @@ steps.</p>
       <li data-md>
        <p>Let <var>contentIndexEntries</var> be <var>registration</var>’s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries②">content index entries</a>.</p>
       <li data-md>
-       <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-set" id="ref-for-map-set">Set</a> <var>contentIndexEntries</var>[<var>id</var>] to <var>entry</var>.</p>
-      <li data-md>
-       <p>Optionally, the user agent MAY <a data-link-type="dfn" href="#display" id="ref-for-display③">display</a> <var>entry</var>.</p>
-      <li data-md>
-       <p><a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#resolve-promise" id="ref-for-resolve-promise">Resolve</a> <var>promise</var> with undefined.</p>
+       <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#enqueue-the-following-steps" id="ref-for-enqueue-the-following-steps①">Enqueue the following steps</a> to <var>registration</var>’s <a data-link-type="dfn" href="#service-worker-registration-entry-edit-queue" id="ref-for-service-worker-registration-entry-edit-queue①">entry edit queue</a>:</p>
+       <ol>
+        <li data-md>
+         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-set" id="ref-for-map-set">Set</a> <var>contentIndexEntries</var>[<var>id</var>] to <var>entry</var>.</p>
+        <li data-md>
+         <p>Optionally, the user agent MAY <a data-link-type="dfn" href="#display" id="ref-for-display③">display</a> <var>entry</var>.</p>
+        <li data-md>
+         <p><a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#resolve-promise" id="ref-for-resolve-promise">Resolve</a> <var>promise</var> with undefined.</p>
+       </ol>
      </ol>
      <p class="note" role="note"><span>Note:</span> Adding a description with an existing ID would overwrite the previous value.</p>
     </div>
@@ -1906,11 +1916,15 @@ steps.</p>
       <li data-md>
        <p>Let <var>contentIndexEntries</var> be <var>registration</var>’s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries③">content index entries</a>.</p>
       <li data-md>
-       <p><a data-link-type="dfn" href="#undisplay" id="ref-for-undisplay②">Undisplay</a> <var>contentIndexEntries</var>[<var>id</var>].</p>
-      <li data-md>
-       <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove①">Remove</a> <var>contentIndexEntries</var>[<var>id</var>].</p>
-      <li data-md>
-       <p><a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#resolve-promise" id="ref-for-resolve-promise①">Resolve</a> <var>promise</var> with undefined.</p>
+       <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#enqueue-the-following-steps" id="ref-for-enqueue-the-following-steps②">Enqueue the following steps</a> to <var>registration</var>’s <a data-link-type="dfn" href="#service-worker-registration-entry-edit-queue" id="ref-for-service-worker-registration-entry-edit-queue②">entry edit queue</a>:</p>
+       <ol>
+        <li data-md>
+         <p><a data-link-type="dfn" href="#undisplay" id="ref-for-undisplay②">Undisplay</a> <var>contentIndexEntries</var>[<var>id</var>].</p>
+        <li data-md>
+         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove①">Remove</a> <var>contentIndexEntries</var>[<var>id</var>].</p>
+        <li data-md>
+         <p><a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#resolve-promise" id="ref-for-resolve-promise①">Resolve</a> <var>promise</var> with undefined.</p>
+       </ol>
      </ol>
     </div>
     <h4 class="heading settled" data-level="5.3.3" id="content-index-getall"><span class="secno">5.3.3. </span><span class="content"><code class="idl"><a data-link-type="idl" href="#dom-contentindex-getall" id="ref-for-dom-contentindex-getall①">getAll()</a></code></span><a class="self-link" href="#content-index-getall"></a></h4>
@@ -1925,13 +1939,17 @@ steps.</p>
       <li data-md>
        <p>Let <var>descriptions</var> be an empty <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list②">list</a>.</p>
       <li data-md>
-       <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-iterate" id="ref-for-map-iterate">For each</a> id → <var>entry</var> of <var>contentIndexEntries</var>:</p>
+       <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#enqueue-the-following-steps" id="ref-for-enqueue-the-following-steps③">Enqueue the following steps</a> to <var>registration</var>’s <a data-link-type="dfn" href="#service-worker-registration-entry-edit-queue" id="ref-for-service-worker-registration-entry-edit-queue③">entry edit queue</a>:</p>
        <ol>
         <li data-md>
-         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append①">Append</a> <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑥">description</a> to <var>descriptions</var>.</p>
+         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-iterate" id="ref-for-map-iterate">For each</a> id → <var>entry</var> of <var>contentIndexEntries</var>:</p>
+         <ol>
+          <li data-md>
+           <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append①">Append</a> <var>entry</var>’s <a data-link-type="dfn" href="#content-index-entry-description" id="ref-for-content-index-entry-description⑥">description</a> to <var>descriptions</var>.</p>
+         </ol>
+        <li data-md>
+         <p><a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#resolve-promise" id="ref-for-resolve-promise②">Resolve</a> <var>promise</var> with <var>descriptions</var>.</p>
        </ol>
-      <li data-md>
-       <p><a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#resolve-promise" id="ref-for-resolve-promise②">Resolve</a> <var>promise</var> with <var>descriptions</var>.</p>
      </ol>
     </div>
    </div>
@@ -2120,6 +2138,7 @@ steps.</p>
      <li><a href="#dom-contentdescription-description">dict-member for ContentDescription</a><span>, in §5.3</span>
     </ul>
    <li><a href="#display">display</a><span>, in §3.2.1</span>
+   <li><a href="#service-worker-registration-entry-edit-queue">entry edit queue</a><span>, in §3.1</span>
    <li><a href="#fire-a-content-delete-event">fire a content delete event</a><span>, in §4.3</span>
    <li><a href="#dom-contentindex-getall">getAll()</a><span>, in §5.3.3</span>
    <li><a href="#dom-contentcategory-homepage">"homepage"</a><span>, in §5.3</span>
@@ -2237,6 +2256,15 @@ steps.</p>
     <li><a href="#ref-for-creating-a-new-browsing-context">4.2. Activate a content index entry</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-enqueue-the-following-steps">
+   <a href="https://html.spec.whatwg.org/multipage/infrastructure.html#enqueue-the-following-steps">https://html.spec.whatwg.org/multipage/infrastructure.html#enqueue-the-following-steps</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-enqueue-the-following-steps">4.1. Delete a content index entry</a>
+    <li><a href="#ref-for-enqueue-the-following-steps①">5.3.1. add()</a>
+    <li><a href="#ref-for-enqueue-the-following-steps②">5.3.2. delete()</a>
+    <li><a href="#ref-for-enqueue-the-following-steps③">5.3.3. getAll()</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-event-handlers">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handlers">https://html.spec.whatwg.org/multipage/webappapis.html#event-handlers</a><b>Referenced in:</b>
    <ul>
@@ -2269,10 +2297,22 @@ steps.</p>
     <li><a href="#ref-for-navigate">4.2. Activate a content index entry</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-parallel-queue">
+   <a href="https://html.spec.whatwg.org/multipage/infrastructure.html#parallel-queue">https://html.spec.whatwg.org/multipage/infrastructure.html#parallel-queue</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-parallel-queue">3.1. Extensions to service worker registration</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-relevant-settings-object">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object">https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-relevant-settings-object">5.3.1. add()</a> <a href="#ref-for-relevant-settings-object①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-starting-a-new-parallel-queue">
+   <a href="https://html.spec.whatwg.org/multipage/infrastructure.html#starting-a-new-parallel-queue">https://html.spec.whatwg.org/multipage/infrastructure.html#starting-a-new-parallel-queue</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-starting-a-new-parallel-queue">3.1. Extensions to service worker registration</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-list-append">
@@ -2497,12 +2537,15 @@ steps.</p>
      <li><span class="dfn-paneled" id="term-for-eventhandler" style="color:initial">EventHandler</span>
      <li><span class="dfn-paneled" id="term-for-api-base-url" style="color:initial">api base url</span>
      <li><span class="dfn-paneled" id="term-for-creating-a-new-browsing-context" style="color:initial">create a new browsing context</span>
+     <li><span class="dfn-paneled" id="term-for-enqueue-the-following-steps" style="color:initial">enqueue the following steps</span>
      <li><span class="dfn-paneled" id="term-for-event-handlers" style="color:initial">event handler</span>
      <li><span class="dfn-paneled" id="term-for-event-handler-event-type" style="color:initial">event handler event type</span>
      <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes" style="color:initial">event handler idl attribute</span>
      <li><span class="dfn-paneled" id="term-for-in-parallel" style="color:initial">in parallel</span>
      <li><span class="dfn-paneled" id="term-for-navigate" style="color:initial">navigate</span>
+     <li><span class="dfn-paneled" id="term-for-parallel-queue" style="color:initial">parallel queue</span>
      <li><span class="dfn-paneled" id="term-for-relevant-settings-object" style="color:initial">relevant settings object</span>
+     <li><span class="dfn-paneled" id="term-for-starting-a-new-parallel-queue" style="color:initial">starting a new parallel queue</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
@@ -2635,6 +2678,15 @@ steps.</p>
     <li><a href="#ref-for-service-worker-registration-content-index-entries④">5.3.3. getAll()</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="service-worker-registration-entry-edit-queue">
+   <b><a href="#service-worker-registration-entry-edit-queue">#service-worker-registration-entry-edit-queue</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-service-worker-registration-entry-edit-queue">4.1. Delete a content index entry</a>
+    <li><a href="#ref-for-service-worker-registration-entry-edit-queue①">5.3.1. add()</a>
+    <li><a href="#ref-for-service-worker-registration-entry-edit-queue②">5.3.2. delete()</a>
+    <li><a href="#ref-for-service-worker-registration-entry-edit-queue③">5.3.3. getAll()</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="content-index-entry">
    <b><a href="#content-index-entry">#content-index-entry</a></b><b>Referenced in:</b>
    <ul>
@@ -2668,9 +2720,9 @@ steps.</p>
    <b><a href="#content-index-entry-service-worker-registration">#content-index-entry-service-worker-registration</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-content-index-entry-service-worker-registration">3.2.1. Display</a>
-    <li><a href="#ref-for-content-index-entry-service-worker-registration①">4.1. Delete a content index entry</a>
-    <li><a href="#ref-for-content-index-entry-service-worker-registration②">4.3. Fire a content delete event</a>
-    <li><a href="#ref-for-content-index-entry-service-worker-registration③">5.3.1. add()</a>
+    <li><a href="#ref-for-content-index-entry-service-worker-registration①">4.1. Delete a content index entry</a> <a href="#ref-for-content-index-entry-service-worker-registration②">(2)</a>
+    <li><a href="#ref-for-content-index-entry-service-worker-registration③">4.3. Fire a content delete event</a>
+    <li><a href="#ref-for-content-index-entry-service-worker-registration④">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="content-index-entry-icons">
