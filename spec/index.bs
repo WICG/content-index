@@ -101,7 +101,7 @@ Using the API can help users more easily discover content for the following exam
     
     self.addEventListener('contentdelete', event => {
       // Clear the underlying content after user-deletion.
-      event.waitUntil(deleteArticleResources(event.description.id));
+      event.waitUntil(deleteArticleResources(event.id));
     });    
   </pre>
 
@@ -139,16 +139,16 @@ A [=/service worker registration=] additionally has:
     * A <dfn>description</dfn> (a {{ContentDescription}}).
     * A <dfn>launch url</dfn> (a [=/URL=]).
     * A <dfn>service worker registration</dfn> (a [=/service worker registration=]).
-    * <dfn>icons</dfn> (a [=/list=] of [=/responses=]).
+    * <dfn>icons</dfn> (a [=/list=] of [=/responses=] that are image decodable).
   </div>
   
   ### [=Display=] ### {#content-index-entry-display}
 
-  A [=/content index entry=] can be [=displayed=] at any time, as long as it [=map/exists=] in a
-  [=/service worker registration=]'s [=content index entries=].
+  The user agent MAY [=display=] a [=/content index entry=] (|entry|) at any time, as long as |entry| [=map/exists=] in
+  a [=/service worker registration=]'s [=content index entries=].
   
   <div algorithm>
-    To <dfn>display</dfn> a [=/content index entry=] (|entry|), the user agent must present a user interface that
+    To <dfn>display</dfn> a [=/content index entry=] (|entry|), the user agent MUST present a user interface that
     follows these rules:
   
     * The UI MUST prominently display the |entry|'s [=content index entry/service worker registration=]'s [=service
@@ -167,7 +167,7 @@ A [=/service worker registration=] additionally has:
   ### [=Undisplay=] ### {#content-index-entry-undisplay}
 
   <div algorithm>
-    To <dfn>undisplay</dfn> a [=/content index entry=] (|entry|), the user agent must remove all UI associated with
+    To <dfn>undisplay</dfn> a [=/content index entry=] (|entry|), the user agent MUST remove all UI associated with
     running [=display=] on |entry|.
   </div>
 
@@ -205,8 +205,8 @@ Algorithms {#algorithms}
     To <dfn>fire a content delete event</dfn> for |entry| (a [=content index entry=]), [=fire a functional event=] named
     "<i>contentdelete</i>" using {{ContentIndexEvent}} on |entry|'s [=content index entry/service worker registration=] with
     the following properties:
-      : {{ContentIndexEvent/description}}
-      :: |entry|'s [=content index entry/description=].
+      : {{ContentIndexEvent/id}}
+      :: |entry|'s [=content index entry/description=]'s {{ContentDescription/id}}.
   </div>
 
 API {#api}
@@ -387,11 +387,11 @@ interface ContentIndex {
 
 <script type="idl">
 dictionary ContentIndexEventInit : ExtendableEventInit {
-  required ContentDescription description;
+  required DOMString id;
 };
 
 [Constructor(DOMString type, ContentIndexEventInit init), Exposed=ServiceWorker]
 interface ContentIndexEvent : ExtendableEvent {
-  readonly attribute ContentDescription description;
+  readonly attribute DOMString id;
 };
 </script>
