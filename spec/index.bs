@@ -11,9 +11,26 @@ Abstract: An API for websites to register their offline enabled content with the
 </pre>
 
 <pre class="link-defaults">
-  spec:html; type:dfn; for:/; text:create a new browsing context
-  spec:infra; type:dfn; text:string
-  spec:promises-guide-1; type:dfn; text:resolve
+spec:html; type:dfn; for:/; text:create a new browsing context
+spec:infra; type:dfn; text:string
+spec:promises-guide-1; type:dfn; text:resolve
+</pre>
+
+<pre class="anchors">
+spec: html; urlPrefix: https://html.spec.whatwg.org/multipage/
+    type: dfn
+        urlPrefix: browsers.html
+            text: ancestor origins list; for: Location; url: concept-location-ancestor-origins-list
+
+spec: page-visibility; urlPrefix: https://www.w3.org/TR/page-visibility/
+    type: attribute; text: visibilityState; for: Document; url: dom-document-visibilitystate
+
+spec: service-workers; urlPrefix: https://www.w3.org/TR/service-workers/
+    type: dfn; text: create window client; url: create-windowclient-algorithm
+
+spec: appmanifest; urlPrefix: https://www.w3.org/TR/appmanifest/
+    type: dictionary; text: ImageResource; url: dom-imageresource
+    type: dfn; text: src; for:ImageResource; url: dom-imageresource-src
 </pre>
 
 <style>
@@ -195,10 +212,31 @@ Algorithms {#algorithms}
 
   <div algorithm>
     To <dfn>activate a content index entry</dfn> for |entry| (a [=content index entry=]), run these steps:
-    
-    1. Let |browsingContext| be the result of running [=create a new browsing context=].
-    1. [=Navigate=] |browsingContext| to |entry|'s [=content index entry/launch url=].
 
+    1. Let |activeWorker| be |entry|'s [=content index entry/service worker registration=]'s [=active worker=].
+    1. If |activeWorker| is null, abort these steps.
+    1. Let |newContext| be a new [=top-level browsing context=].
+    1. [=Queue a task=] to run the following steps on |newContext|'s {{Window}} object's
+        [=environment settings object=]'s [=responsible event loop=] using the [=user interaction task source=]:
+        1. <i>HandleNavigate</i>: [=Navigate=] |newContext| to |entry|'s [=content index entry/launch url=] with
+            [=exceptions enabled flag|exceptions enabled=] and [=replacement enabled=].
+        1. If the algorithm steps invoked in the step labeled <i>HandleNavigate</i> [=throws=] an exception, abort
+            these steps.
+        1. Let |frameType| be "`top-level`".
+        1. Let |visibilityState| be |newContext|'s [=active document=]'s {{Document/visibilityState}} attribute value.
+        1. Let |focusState| be the result of running the [=has focus steps=] with |newContext|'s [=active document=] as
+            the argument.
+        1. Let |ancestorOriginsList| be |newContext|'s [=active document=]'s [=relevant global object=]'s {{Location}}
+            object's [=Location/ancestor origins list=]'s associated list.
+        1. Let |serviceWorkerEventLoop| be |activeWorker|'s [=service worker/global object=]'s [=event loop=].
+        1. [=Queue a task=] to run the following steps on |serviceWorkerEventLoop| using the
+            [=DOM manipulation task source=]:
+            1. If |newContext|'s {{Window}} object's [=environment settings object=]'s [=creation URL=]'s
+                [=environment settings object/origin=] is not the [=same origin|same=] as the |activeWorker|'s
+                [=environment settings object/origin=], abort these steps.
+            1. Run [=Create Window Client=] with |newContext|'s {{Window}} object's [=environment settings object=],
+                |frameType|, |visibilityState|, |focusState|, and |ancestorOriginsList| as the arguments.
+  
     Issue: Is creating a new Browsing Context the right thing to do here?
     (<a href="https://github.com/rayankans/content-index/issues/15">issue</a>)
   </div>
