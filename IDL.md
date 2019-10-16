@@ -35,7 +35,7 @@ partial interface ServiceWorkerRegistration {
 ```
 
 ## Additions to the Service Worker Global Scope
-``webidl
+```webidl
 dictionary ContentIndexEventInit : ExtendableEventInit {
     required DOMString id;
 };
