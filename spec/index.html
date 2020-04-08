@@ -1215,7 +1215,7 @@ Possible extra rowspan handling
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version cb5a17652cb33dffd20b8b6a876bb811c1f749a9" name="generator">
   <link href="https://rayankans.github.io/content-index/spec/" rel="canonical">
-  <meta content="c65dc409081c4d46e6d1dd448414205617b56ee2" name="document-revision">
+  <meta content="f541e4b1f98ed0c4600373603e2d095c978703b0" name="document-revision">
 <style>
   .algorithm dl {
     overflow: hidden;
@@ -1866,6 +1866,8 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
        <p>If <var>matchedRegistration</var> is not equal to <var>registration</var>, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise②">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②">TypeError</a></code> and abort
 these steps.</p>
       <li data-md>
+       <p>If <var>registration</var>’s <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-active-worker" id="ref-for-dfn-active-worker②">active worker</a>'s <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-set-of-extended-events" id="ref-for-dfn-set-of-extended-events">set of extended events</a> does not <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-contain" id="ref-for-list-contain">contain</a> a <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/ServiceWorker/#fetchevent" id="ref-for-fetchevent">FetchEvent</a></code>, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise③">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror③">TypeError</a></code> and abort these steps.</p>
+      <li data-md>
        <p>Let <var>icons</var> be an empty <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list①">list</a>.</p>
       <li data-md>
        <p>Optionally, the user agent MAY select icons to use from <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-icons" id="ref-for-dom-contentdescription-icons">icons</a></code>. In which
@@ -1896,9 +1898,9 @@ properties:</p>
            <p>"`include`".</p>
          </dl>
         <li data-md>
-         <p>If <var>response</var> is a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-network-error" id="ref-for-concept-network-error">network error</a>, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise③">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror③">TypeError</a></code> and abort these steps.</p>
+         <p>If <var>response</var> is a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-network-error" id="ref-for-concept-network-error">network error</a>, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise④">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror④">TypeError</a></code> and abort these steps.</p>
         <li data-md>
-         <p>If <var>response</var> cannot be decoded as an image, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise④">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror④">TypeError</a></code> and abort these
+         <p>If <var>response</var> cannot be decoded as an image, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise⑤">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror⑤">TypeError</a></code> and abort these
 steps.</p>
         <li data-md>
          <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append">Append</a> <var>response</var> to <var>icons</var>.</p>
@@ -2466,6 +2468,12 @@ steps.</p>
     <li><a href="#ref-for-list-append①">5.3.3. getAll()</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-list-contain">
+   <a href="https://infra.spec.whatwg.org/#list-contain">https://infra.spec.whatwg.org/#list-contain</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-list-contain">5.3.1. add()</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-map-exists">
    <a href="https://infra.spec.whatwg.org/#map-exists">https://infra.spec.whatwg.org/#map-exists</a><b>Referenced in:</b>
    <ul>
@@ -2528,7 +2536,7 @@ steps.</p>
   <aside class="dfn-panel" data-for="term-for-reject-promise">
    <a href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise">https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-reject-promise">5.3.1. add()</a> <a href="#ref-for-reject-promise①">(2)</a> <a href="#ref-for-reject-promise②">(3)</a> <a href="#ref-for-reject-promise③">(4)</a> <a href="#ref-for-reject-promise④">(5)</a>
+    <li><a href="#ref-for-reject-promise">5.3.1. add()</a> <a href="#ref-for-reject-promise①">(2)</a> <a href="#ref-for-reject-promise②">(3)</a> <a href="#ref-for-reject-promise③">(4)</a> <a href="#ref-for-reject-promise④">(5)</a> <a href="#ref-for-reject-promise⑤">(6)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-resolve-promise">
@@ -2549,6 +2557,12 @@ steps.</p>
    <a href="https://w3c.github.io/ServiceWorker/#dictdef-extendableeventinit">https://w3c.github.io/ServiceWorker/#dictdef-extendableeventinit</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dictdef-extendableeventinit">5.4. ContentIndexEvent</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-fetchevent">
+   <a href="https://w3c.github.io/ServiceWorker/#fetchevent">https://w3c.github.io/ServiceWorker/#fetchevent</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-fetchevent">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-serviceworker">
@@ -2573,7 +2587,7 @@ steps.</p>
    <a href="https://w3c.github.io/ServiceWorker/#dfn-active-worker">https://w3c.github.io/ServiceWorker/#dfn-active-worker</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-active-worker">4.2. Activate a content index entry</a>
-    <li><a href="#ref-for-dfn-active-worker①">5.3.1. add()</a>
+    <li><a href="#ref-for-dfn-active-worker①">5.3.1. add()</a> <a href="#ref-for-dfn-active-worker②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-create-windowclient-algorithm">
@@ -2623,6 +2637,12 @@ steps.</p>
     <li><a href="#ref-for-dfn-service-worker-registration⑤">5.3.1. add()</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-set-of-extended-events">
+   <a href="https://w3c.github.io/ServiceWorker/#dfn-set-of-extended-events">https://w3c.github.io/ServiceWorker/#dfn-set-of-extended-events</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-set-of-extended-events">5.3.1. add()</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url-origin">
    <a href="https://url.spec.whatwg.org/#concept-url-origin">https://url.spec.whatwg.org/#concept-url-origin</a><b>Referenced in:</b>
    <ul>
@@ -2664,7 +2684,7 @@ steps.</p>
   <aside class="dfn-panel" data-for="term-for-exceptiondef-typeerror">
    <a href="https://heycam.github.io/webidl/#exceptiondef-typeerror">https://heycam.github.io/webidl/#exceptiondef-typeerror</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-exceptiondef-typeerror">5.3.1. add()</a> <a href="#ref-for-exceptiondef-typeerror①">(2)</a> <a href="#ref-for-exceptiondef-typeerror②">(3)</a> <a href="#ref-for-exceptiondef-typeerror③">(4)</a> <a href="#ref-for-exceptiondef-typeerror④">(5)</a>
+    <li><a href="#ref-for-exceptiondef-typeerror">5.3.1. add()</a> <a href="#ref-for-exceptiondef-typeerror①">(2)</a> <a href="#ref-for-exceptiondef-typeerror②">(3)</a> <a href="#ref-for-exceptiondef-typeerror③">(4)</a> <a href="#ref-for-exceptiondef-typeerror④">(5)</a> <a href="#ref-for-exceptiondef-typeerror⑤">(6)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-USVString">
@@ -2743,6 +2763,7 @@ steps.</p>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-list-append" style="color:initial">append</span>
+     <li><span class="dfn-paneled" id="term-for-list-contain" style="color:initial">contain</span>
      <li><span class="dfn-paneled" id="term-for-map-exists" style="color:initial">exist</span>
      <li><span class="dfn-paneled" id="term-for-map-iterate" style="color:initial">for each <small>(for map)</small></span>
      <li><span class="dfn-paneled" id="term-for-list" style="color:initial">list</span>
@@ -2768,6 +2789,7 @@ steps.</p>
     <ul>
      <li><span class="dfn-paneled" id="term-for-extendableevent" style="color:initial">ExtendableEvent</span>
      <li><span class="dfn-paneled" id="term-for-dictdef-extendableeventinit" style="color:initial">ExtendableEventInit</span>
+     <li><span class="dfn-paneled" id="term-for-fetchevent" style="color:initial">FetchEvent</span>
      <li><span class="dfn-paneled" id="term-for-serviceworker" style="color:initial">ServiceWorker</span>
      <li><span class="dfn-paneled" id="term-for-serviceworkerglobalscope" style="color:initial">ServiceWorkerGlobalScope</span>
      <li><span class="dfn-paneled" id="term-for-serviceworkerregistration" style="color:initial">ServiceWorkerRegistration</span>
@@ -2779,6 +2801,7 @@ steps.</p>
      <li><span class="dfn-paneled" id="term-for-dfn-scope-url" style="color:initial">scope url</span>
      <li><span class="dfn-paneled" id="term-for-dfn-service-worker" style="color:initial">service worker</span>
      <li><span class="dfn-paneled" id="term-for-dfn-service-worker-registration" style="color:initial">service worker registration</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-set-of-extended-events" style="color:initial">set of extended events</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:

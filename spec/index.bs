@@ -353,6 +353,8 @@ interface ContentIndex {
         |launchUrl| as its argument.
     1. If |matchedRegistration| is not equal to |registration|, [=reject=] |promise| with a {{TypeError}} and abort
         these steps.
+    1. If |registration|'s [=active worker=]'s [=set of extended events=] does not [=set/contain=] a {{FetchEvent}},
+        [=reject=] |promise| with a {{TypeError}} and abort these steps.
     1. Let |icons| be an empty [=/list=].
     1. Optionally, the user agent MAY select icons to use from |description|'s {{ContentDescription/icons}}. In which
         case run the following steps [=list/for each=] |resource| of |description|'s {{ContentDescription/icons}}'
