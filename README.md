@@ -1,7 +1,7 @@
 # Content Indexing
 **Written**: 2019-04-29<br/>
 **Updated**: 2019-05-08<br/>
-**Spec**: [Draft](https://rayankans.github.io/content-index/spec/)
+**Spec**: [Draft](https://wicg.github.io/content-index/spec/)
 
 High quality offline-enabled web content is not easily discoverable by users right now. They would have to know which
 websites work offline or install a PWA to be able to browse through content while offline. This is not a great user

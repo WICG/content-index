@@ -238,7 +238,7 @@ Algorithms {#algorithms}
                 |frameType|, |visibilityState|, |focusState|, and |ancestorOriginsList| as the arguments.
   
     Issue: Is creating a new Browsing Context the right thing to do here?
-    (<a href="https://github.com/rayankans/content-index/issues/15">issue</a>)
+    (<a href="https://github.com/wicg/content-index/issues/15">issue</a>)
   </div>
 
 ## [=Fire a content delete event=] ## {#fire-content-delete-event-algorithm}
