@@ -345,12 +345,12 @@ interface ContentIndex {
     1. If any of |description|'s {{ContentDescription/id}}, {{ContentDescription/title}},
         {{ContentDescription/description}}, or {{ContentDescription/launchUrl}} is the empty [=/string=], [=reject=]
         |promise| with a {{TypeError}} and abort these steps.
-    1. Let |launchUrl| be the result of [=URL parser|parsing=] |description|'s {{ContentDescription/launchUrl}} with
+    1. Let |launchURL| be the result of [=URL parser|parsing=] |description|'s {{ContentDescription/launchUrl}} with
         [=context object=]'s [=relevant settings object=]'s [=API base URL=].
 
         Note: A new [=/service worker registration=] might be introduced later with a narrower scope.   
     1. Let |matchedRegistration| be the result of running  [=Match Service Worker Registration=] algorithm with
-        |launchUrl| as its argument.
+        |launchURL| as its argument.
     1. If |matchedRegistration| is not equal to |registration|, [=reject=] |promise| with a {{TypeError}} and abort
         these steps.
     1. If |registration|'s [=active worker=]'s [=set of extended events=] does not [=set/contain=] a {{FetchEvent}},
@@ -382,7 +382,7 @@ interface ContentIndex {
         : [=content index entry/description=]
         :: |description|.
         : [=content index entry/launch url=]
-        :: |launchUrl|
+        :: |launchURL|
         : [=content index entry/service worker registration=]
         :: |registration|.
         : [=content index entry/icons=]
