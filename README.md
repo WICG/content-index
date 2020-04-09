@@ -90,7 +90,7 @@ await swRegistration.index.add({
       type: 'image/png',
     },
   ],
-  launchUrl: 'https://website.dev/articles/123',
+  url: 'https://website.dev/articles/123',
 });
 
 // Delete an entry from the content index
@@ -121,7 +121,7 @@ async function handlePush(data) {
       description: news.description,
       category: 'article',
       icons: news.icons,
-      launchUrl: `/news/${news.id}`,
+      url: `/news/${news.id}`,
     });
   }
 
@@ -157,7 +157,7 @@ function addArticleToIndex(article) {
     description: article.description,
     category: 'article',
     icons: article.icons,
-    launchUrl: '/articles/' + article.id,
+    url: '/articles/' + article.id,
   });
 }
 

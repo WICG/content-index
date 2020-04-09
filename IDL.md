@@ -17,7 +17,7 @@ dictionary ContentDescription {
     required DOMString description;
     ContentCategory category = "";
     sequence<ImageResource> icons = [];
-    required USVString launchUrl;
+    required USVString url;
 };
 
 interface ContentIndex {

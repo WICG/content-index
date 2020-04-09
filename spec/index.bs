@@ -109,7 +109,7 @@ Using the API can help users more easily discover content for the following exam
           description: payload.description,
           category: 'article',
           icons: payload.icons,
-          launchUrl: `/article/${payload.id}`,
+          url: `/article/${payload.id}`,
         });
     
         // Show a notification if urgent.
@@ -319,7 +319,7 @@ dictionary ContentDescription {
   required DOMString description;
   ContentCategory category = "";
   sequence<ImageResource> icons = [];
-  required USVString launchUrl;
+  required USVString url;
 };
 
 [Exposed=(Window,Worker)]
@@ -343,9 +343,9 @@ interface ContentIndex {
     1. Let |registration| be the [=context object=]'s [=ContentIndex/service worker registration=].
     1. If |registration|'s [=active worker=] is null, [=reject=] |promise| with a {{TypeError}} and abort these steps.
     1. If any of |description|'s {{ContentDescription/id}}, {{ContentDescription/title}},
-        {{ContentDescription/description}}, or {{ContentDescription/launchUrl}} is the empty [=/string=], [=reject=]
+        {{ContentDescription/description}}, or {{ContentDescription/url}} is the empty [=/string=], [=reject=]
         |promise| with a {{TypeError}} and abort these steps.
-    1. Let |launchURL| be the result of [=URL parser|parsing=] |description|'s {{ContentDescription/launchUrl}} with
+    1. Let |launchURL| be the result of [=URL parser|parsing=] |description|'s {{ContentDescription/url}} with
         [=context object=]'s [=relevant settings object=]'s [=API base URL=].
 
         Note: A new [=/service worker registration=] might be introduced later with a narrower scope.   

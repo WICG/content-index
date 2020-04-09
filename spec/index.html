@@ -1215,7 +1215,7 @@ Possible extra rowspan handling
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version cb5a17652cb33dffd20b8b6a876bb811c1f749a9" name="generator">
   <link href="https://rayankans.github.io/content-index/spec/" rel="canonical">
-  <meta content="ebdaaec773335ce74018734c4234335c1d5649b3" name="document-revision">
+  <meta content="8426e9fb98372c9e6ca81ef79c5bd8fc90400b97" name="document-revision">
 <style>
   .algorithm dl {
     overflow: hidden;
@@ -1491,7 +1491,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Content Index</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-04-08">8 April 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-04-09">9 April 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1603,8 +1603,8 @@ also be used to improve on-device search and augment browsing history.</p>
      <p>A content streaming app registering downloaded content with the browser.</p>
    </ul>
    <h3 class="heading settled" data-level="1.1" id="example"><span class="secno">1.1. </span><span class="content">Example</span><a class="self-link" href="#example"></a></h3>
-   <div class="example" id="example-dc73e34b">
-    <a class="self-link" href="#example-dc73e34b"></a> Registering an offline news article in a <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker" id="ref-for-dfn-service-worker">service worker</a>. 
+   <div class="example" id="example-8d1c5860">
+    <a class="self-link" href="#example-8d1c5860"></a> Registering an offline news article in a <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker" id="ref-for-dfn-service-worker">service worker</a>. 
 <pre class="lang-js highlight"><c- a>function</c-> deleteArticleResources<c- p>(</c->id<c- p>)</c-> <c- p>{</c->
   <c- k>return</c-> Promise<c- p>.</c->all<c- p>([</c->
     caches<c- p>.</c->open<c- p>(</c-><c- t>'offline-articles'</c-><c- p>)</c->
@@ -1639,7 +1639,7 @@ self<c- p>.</c->addEventListener<c- p>(</c-><c- t>'push'</c-><c- p>,</c-> event 
       description<c- o>:</c-> payload<c- p>.</c->description<c- p>,</c->
       category<c- o>:</c-> <c- t>'article'</c-><c- p>,</c->
       icons<c- o>:</c-> payload<c- p>.</c->icons<c- p>,</c->
-      launchUrl<c- o>:</c-> <c- sb>`/article/</c-><c- si>${</c->payload<c- p>.</c->id<c- si>}</c-><c- sb>`</c-><c- p>,</c->
+      url<c- o>:</c-> <c- sb>`/article/</c-><c- si>${</c->payload<c- p>.</c->id<c- si>}</c-><c- sb>`</c-><c- p>,</c->
     <c- p>});</c->
 
     <c- c1>// Show a notification if urgent.</c->
@@ -1834,7 +1834,7 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-contentdescription-description"><code><c- g>description</c-></code></dfn>;
   <a class="n" data-link-type="idl-name" href="#enumdef-contentcategory" id="ref-for-enumdef-contentcategory"><c- n>ContentCategory</c-></a> <dfn class="dfn-paneled idl-code" data-default="&quot;&quot;" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="ContentCategory " id="dom-contentdescription-category"><code><c- g>category</c-></code></dfn> = "";
   <c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name" href="https://www.w3.org/TR/appmanifest/#dom-imageresource" id="ref-for-dom-imageresource"><c- n>ImageResource</c-></a>> <dfn class="dfn-paneled idl-code" data-default="None" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="sequence<ImageResource> " id="dom-contentdescription-icons"><code><c- g>icons</c-></code></dfn> = [];
-  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString"><c- b>USVString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="USVString " id="dom-contentdescription-launchurl"><code><c- g>launchUrl</c-></code></dfn>;
+  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString"><c- b>USVString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="ContentDescription" data-dfn-type="dict-member" data-export data-type="USVString " id="dom-contentdescription-url"><code><c- g>url</c-></code></dfn>;
 };
 
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
@@ -1856,9 +1856,9 @@ supported, as <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipa
       <li data-md>
        <p>If <var>registration</var>’s <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-active-worker" id="ref-for-dfn-active-worker①">active worker</a> is null, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror">TypeError</a></code> and abort these steps.</p>
       <li data-md>
-       <p>If any of <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id②">id</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-title" id="ref-for-dom-contentdescription-title①">title</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-description" id="ref-for-dom-contentdescription-description①">description</a></code>, or <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-launchurl" id="ref-for-dom-contentdescription-launchurl">launchUrl</a></code> is the empty <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string">string</a>, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise①">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror①">TypeError</a></code> and abort these steps.</p>
+       <p>If any of <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-id" id="ref-for-dom-contentdescription-id②">id</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-title" id="ref-for-dom-contentdescription-title①">title</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-description" id="ref-for-dom-contentdescription-description①">description</a></code>, or <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-url" id="ref-for-dom-contentdescription-url">url</a></code> is the empty <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string">string</a>, <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#reject-promise" id="ref-for-reject-promise①">reject</a> <var>promise</var> with a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror①">TypeError</a></code> and abort these steps.</p>
       <li data-md>
-       <p>Let <var>launchURL</var> be the result of <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">parsing</a> <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-launchurl" id="ref-for-dom-contentdescription-launchurl①">launchUrl</a></code> with <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object③">context object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object" id="ref-for-relevant-settings-object">relevant settings object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#api-base-url" id="ref-for-api-base-url">API base URL</a>.</p>
+       <p>Let <var>launchURL</var> be the result of <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">parsing</a> <var>description</var>’s <code class="idl"><a data-link-type="idl" href="#dom-contentdescription-url" id="ref-for-dom-contentdescription-url①">url</a></code> with <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object③">context object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object" id="ref-for-relevant-settings-object">relevant settings object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#api-base-url" id="ref-for-api-base-url">API base URL</a>.</p>
        <p class="note" role="note"><span>Note:</span> A new <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration" id="ref-for-dfn-service-worker-registration⑤">service worker registration</a> might be introduced later with a narrower scope.</p>
       <li data-md>
        <p>Let <var>matchedRegistration</var> be the result of running <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#match-service-worker-registration" id="ref-for-match-service-worker-registration">Match Service Worker Registration</a> algorithm with <var>launchURL</var> as its argument.</p>
@@ -2154,8 +2154,8 @@ steps.</p>
    <li><a href="#enumdef-contentcategory">ContentCategory</a><span>, in §5.3</span>
    <li><a href="#eventdef-serviceworkerglobalscope-contentdelete">contentdelete</a><span>, in §5.1.1</span>
    <li><a href="#dictdef-contentdescription">ContentDescription</a><span>, in §5.3</span>
-   <li><a href="#serviceworkerregistration-content-index">content index</a><span>, in §5.2</span>
    <li><a href="#contentindex">ContentIndex</a><span>, in §5.3</span>
+   <li><a href="#serviceworkerregistration-content-index">content index</a><span>, in §5.2</span>
    <li><a href="#service-worker-registration-content-index-entries">Content index entries</a><span>, in §3.1</span>
    <li><a href="#content-index-entry">content index entry</a><span>, in §3.2</span>
    <li><a href="#contentindexevent">ContentIndexEvent</a><span>, in §5.4</span>
@@ -2188,7 +2188,6 @@ steps.</p>
      <li><a href="#dom-contentindexeventinit-id">dict-member for ContentIndexEventInit</a><span>, in §5.4</span>
     </ul>
    <li><a href="#dom-serviceworkerregistration-index">index</a><span>, in §5.2</span>
-   <li><a href="#dom-contentdescription-launchurl">launchUrl</a><span>, in §5.3</span>
    <li><a href="#content-index-entry-launch-url">launch url</a><span>, in §3.2</span>
    <li><a href="#dom-serviceworkerglobalscope-oncontentdelete">oncontentdelete</a><span>, in §5.1</span>
    <li>
@@ -2199,6 +2198,7 @@ steps.</p>
     </ul>
    <li><a href="#dom-contentdescription-title">title</a><span>, in §5.3</span>
    <li><a href="#undisplay">undisplay</a><span>, in §3.2.2</span>
+   <li><a href="#dom-contentdescription-url">url</a><span>, in §5.3</span>
    <li><a href="#dom-contentcategory-video">"video"</a><span>, in §5.3</span>
   </ul>
   <aside class="dfn-panel" data-for="term-for-dom-imageresource">
@@ -2870,7 +2870,7 @@ steps.</p>
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②①"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-contentdescription-description"><code><c- g>description</c-></code></a>;
   <a class="n" data-link-type="idl-name" href="#enumdef-contentcategory" id="ref-for-enumdef-contentcategory①"><c- n>ContentCategory</c-></a> <a data-default="&quot;&quot;" data-type="ContentCategory " href="#dom-contentdescription-category"><code><c- g>category</c-></code></a> = "";
   <c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name" href="https://www.w3.org/TR/appmanifest/#dom-imageresource" id="ref-for-dom-imageresource①"><c- n>ImageResource</c-></a>> <a data-default="None" data-type="sequence<ImageResource> " href="#dom-contentdescription-icons"><code><c- g>icons</c-></code></a> = [];
-  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString①"><c- b>USVString</c-></a> <a data-type="USVString " href="#dom-contentdescription-launchurl"><code><c- g>launchUrl</c-></code></a>;
+  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString①"><c- b>USVString</c-></a> <a data-type="USVString " href="#dom-contentdescription-url"><code><c- g>url</c-></code></a>;
 };
 
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
@@ -3062,10 +3062,10 @@ steps.</p>
     <li><a href="#ref-for-dom-contentdescription-icons">5.3.1. add()</a> <a href="#ref-for-dom-contentdescription-icons①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-contentdescription-launchurl">
-   <b><a href="#dom-contentdescription-launchurl">#dom-contentdescription-launchurl</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-contentdescription-url">
+   <b><a href="#dom-contentdescription-url">#dom-contentdescription-url</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-contentdescription-launchurl">5.3.1. add()</a> <a href="#ref-for-dom-contentdescription-launchurl①">(2)</a>
+    <li><a href="#ref-for-dom-contentdescription-url">5.3.1. add()</a> <a href="#ref-for-dom-contentdescription-url①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="contentindex">
