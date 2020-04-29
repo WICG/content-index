@@ -72,6 +72,11 @@ adding personalized content, websites can simply remove entries on logout (and c
 storage required to store the entries of the index itself count towards the quota of the origin.
 [This document](SECURITY_AND_PRIVACY.md) contains additional answers of the [security & privacy questionnaire](https://www.w3.org/TR/security-privacy-questionnaire/).
 
+## Abuse Considerations
+Malicious/spammy websites can aggressively index their content to maximize the chance of it being surfaced in the
+browser UI. Browsers should be wary of this when choosing the content to surface, and potentially apply a per-origin
+limit. Browsers can also use other signals to pick the appropriate content, like freshness, and site engagement.
+
 ## Examples
 Please see [this separate document](IDL.md) for the proposed WebIDL additions.
 
