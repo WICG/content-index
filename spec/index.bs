@@ -28,9 +28,11 @@ spec: page-visibility; urlPrefix: https://www.w3.org/TR/page-visibility/
 spec: service-workers; urlPrefix: https://www.w3.org/TR/service-workers/
     type: dfn; text: create window client; url: create-windowclient-algorithm
 
-spec: appmanifest; urlPrefix: https://www.w3.org/TR/appmanifest/
+spec: image-resource; urlPrefix: https://w3c.github.io/image-resource/
     type: dictionary; text: ImageResource; url: dom-imageresource
-    type: dfn; text: src; for:ImageResource; url: dom-imageresource-src
+    type: dfn; text: image resource; url: image-resource
+    type: dfn; text: src; for:image resource; url: dfn-src
+    type: dfn; text: parsing; url: processing-an-imageresource-from-an-api
 </pre>
 
 <style>
@@ -357,12 +359,12 @@ interface ContentIndex {
         [=reject=] |promise| with a {{TypeError}} and abort these steps.
     1. Let |icons| be an empty [=/list=].
     1. Optionally, the user agent MAY select icons to use from |description|'s {{ContentDescription/icons}}. In which
-        case run the following steps [=list/for each=] |resource| of |description|'s {{ContentDescription/icons}}'
-        selected icons:
+        case run the following steps [=list/for each=] [=image resource=] (|resource|) of |description|'s {{ContentDescription/icons}}'
+        selected icons after successfully [=parsing=] it:
         1. Let |response| be the result of awaiting a [=/fetch=] using a new [=/request=] with the following
             properties:
             : [=request/URL=]
-            :: |resource|'s [=ImageResource/src=].
+            :: |resource|'s [=image resource/src=].
             : [=request/Client=]
             :: [=context object=]'s [=relevant settings object=].
             : [=request/Keepalive flag=]
