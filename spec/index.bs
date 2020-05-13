@@ -130,13 +130,17 @@ Using the API can help users more easily discover content for the following exam
 Privacy Considerations {#privacy-considerations}
 ================================================
 
-Firing the <code>contentdelete</code> event may reveal the user's IP address after the user has left the page. Exploting
+Firing the <code>contentdelete</code> event may reveal the user's IP address after the user has left the page. Exploiting
 this can be used for tracking location history. The user agent SHOULD limit tracking by capping the duration of the
 event.
 
 When firing the <code>contentdelete</code> event, the user agent SHOULD prevent the website from adding new content.
 This prevents spammy websites from re-adding the same content, and the users from being shown content they just
 deleted.
+
+[=Displaying=] all registered content can cause malicious websites to spam users with their content to maximize
+exposure. User agents are strongly encouraged to not surface all content, but rather choose the appropriate content
+to [=display=] based on a set of user agent defined signals, aimed at improving the user experience.
 
 Infrastructure {#infrastructure}
 ================================
@@ -167,6 +171,8 @@ A [=/service worker registration=] additionally has:
 
   The user agent MAY [=display=] a [=/content index entry=] (|entry|) at any time, as long as |entry| [=map/exists=] in
   a [=/service worker registration=]'s [=content index entries=].
+
+  Note: User agents should limit surfaced content to avoid showing too many entries to a user.
   
   <div algorithm>
     To <dfn>display</dfn> a [=/content index entry=] (|entry|), the user agent MUST present a user interface that

@@ -1215,7 +1215,7 @@ Possible extra rowspan handling
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version cb5a17652cb33dffd20b8b6a876bb811c1f749a9" name="generator">
   <link href="https://wicg.github.io/content-index/spec/" rel="canonical">
-  <meta content="9829a2066fa5a472d93bbea8f755ad8dc6e061a7" name="document-revision">
+  <meta content="788259ac398612decfb3a9c1ae483316ac85c4b9" name="document-revision">
 <style>
   .algorithm dl {
     overflow: hidden;
@@ -1491,7 +1491,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Content Index</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-04-29">29 April 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-13">13 May 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1654,12 +1654,15 @@ self<c- p>.</c->addEventListener<c- p>(</c-><c- t>'contentdelete'</c-><c- p>,</c
     <p>In the above example, <code>shouldRemoveOldArticle</code> is a developer-defined function.</p>
    </div>
    <h2 class="heading settled" data-level="2" id="privacy-considerations"><span class="secno">2. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy-considerations"></a></h2>
-   <p>Firing the <code>contentdelete</code> event may reveal the user’s IP address after the user has left the page. Exploting
+   <p>Firing the <code>contentdelete</code> event may reveal the user’s IP address after the user has left the page. Exploiting
 this can be used for tracking location history. The user agent SHOULD limit tracking by capping the duration of the
 event.</p>
    <p>When firing the <code>contentdelete</code> event, the user agent SHOULD prevent the website from adding new content.
 This prevents spammy websites from re-adding the same content, and the users from being shown content they just
 deleted.</p>
+   <p><a data-link-type="dfn" href="#display" id="ref-for-display">Displaying</a> all registered content can cause malicious websites to spam users with their content to maximize
+exposure. User agents are strongly encouraged to not surface all content, but rather choose the appropriate content
+to <a data-link-type="dfn" href="#display" id="ref-for-display①">display</a> based on a set of user agent defined signals, aimed at improving the user experience.</p>
    <h2 class="heading settled" data-level="3" id="infrastructure"><span class="secno">3. </span><span class="content">Infrastructure</span><a class="self-link" href="#infrastructure"></a></h2>
    <h3 class="heading settled" data-level="3.1" id="service-worker-registration-concept-extensions"><span class="secno">3.1. </span><span class="content">Extensions to service worker registration</span><a class="self-link" href="#service-worker-registration-concept-extensions"></a></h3>
    <p>A <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration" id="ref-for-dfn-service-worker-registration">service worker registration</a> additionally has:</p>
@@ -1685,9 +1688,10 @@ deleted.</p>
       <p><dfn class="dfn-paneled" data-dfn-for="content index entry" data-dfn-type="dfn" data-noexport id="content-index-entry-icons">icons</dfn> (a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list">list</a> of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response" id="ref-for-concept-response">responses</a> that are image decodable).</p>
     </ul>
    </div>
-   <h4 class="heading settled" data-level="3.2.1" id="content-index-entry-display"><span class="secno">3.2.1. </span><span class="content"><a data-link-type="dfn" href="#display" id="ref-for-display">Display</a></span><a class="self-link" href="#content-index-entry-display"></a></h4>
-   <p>The user agent MAY <a data-link-type="dfn" href="#display" id="ref-for-display①">display</a> a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry①">content index entry</a> (<var>entry</var>) at any time, as long as <var>entry</var> <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists">exists</a> in
+   <h4 class="heading settled" data-level="3.2.1" id="content-index-entry-display"><span class="secno">3.2.1. </span><span class="content"><a data-link-type="dfn" href="#display" id="ref-for-display②">Display</a></span><a class="self-link" href="#content-index-entry-display"></a></h4>
+   <p>The user agent MAY <a data-link-type="dfn" href="#display" id="ref-for-display③">display</a> a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry①">content index entry</a> (<var>entry</var>) at any time, as long as <var>entry</var> <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists">exists</a> in
   a <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker-registration" id="ref-for-dfn-service-worker-registration②">service worker registration</a>'s <a data-link-type="dfn" href="#service-worker-registration-content-index-entries" id="ref-for-service-worker-registration-content-index-entries">content index entries</a>.</p>
+   <p class="note" role="note"><span>Note:</span> User agents should limit surfaced content to avoid showing too many entries to a user.</p>
    <div class="algorithm" data-algorithm="display">
      To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="display">display</dfn> a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry②">content index entry</a> (<var>entry</var>), the user agent MUST present a user interface that
     follows these rules: 
@@ -1712,7 +1716,7 @@ run <a data-link-type="dfn" href="#delete-a-content-index-entry" id="ref-for-del
    </div>
    <h4 class="heading settled" data-level="3.2.2" id="content-index-entry-undisplay"><span class="secno">3.2.2. </span><span class="content"><a data-link-type="dfn" href="#undisplay" id="ref-for-undisplay">Undisplay</a></span><a class="self-link" href="#content-index-entry-undisplay"></a></h4>
    <div class="algorithm" data-algorithm="undisplay"> To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="undisplay">undisplay</dfn> a <a data-link-type="dfn" href="#content-index-entry" id="ref-for-content-index-entry③">content index entry</a> (<var>entry</var>), the user agent MUST remove all UI associated with
-    running <a data-link-type="dfn" href="#display" id="ref-for-display②">display</a> on <var>entry</var>. </div>
+    running <a data-link-type="dfn" href="#display" id="ref-for-display④">display</a> on <var>entry</var>. </div>
    <h2 class="heading settled" data-level="4" id="algorithms"><span class="secno">4. </span><span class="content">Algorithms</span><a class="self-link" href="#algorithms"></a></h2>
    <h3 class="heading settled" data-level="4.1" id="delete-a-content-index-entry-algorithm"><span class="secno">4.1. </span><span class="content"><a data-link-type="dfn" href="#delete-a-content-index-entry" id="ref-for-delete-a-content-index-entry①">Delete a content index entry</a></span><a class="self-link" href="#delete-a-content-index-entry-algorithm"></a></h3>
    <div class="algorithm" data-algorithm="delete a content index entry">
@@ -1931,7 +1935,7 @@ steps.</p>
         <li data-md>
          <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-set" id="ref-for-map-set">Set</a> <var>contentIndexEntries</var>[<var>id</var>] to <var>entry</var>.</p>
         <li data-md>
-         <p>Optionally, the user agent MAY <a data-link-type="dfn" href="#display" id="ref-for-display③">display</a> <var>entry</var>.</p>
+         <p>Optionally, the user agent MAY <a data-link-type="dfn" href="#display" id="ref-for-display⑤">display</a> <var>entry</var>.</p>
         <li data-md>
          <p><a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#resolve-promise" id="ref-for-resolve-promise">Resolve</a> <var>promise</var> with undefined.</p>
        </ol>
@@ -2975,9 +2979,10 @@ steps.</p>
   <aside class="dfn-panel" data-for="display">
    <b><a href="#display">#display</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-display">3.2.1. Display</a> <a href="#ref-for-display①">(2)</a>
-    <li><a href="#ref-for-display②">3.2.2. Undisplay</a>
-    <li><a href="#ref-for-display③">5.3.1. add()</a>
+    <li><a href="#ref-for-display">2. Privacy Considerations</a> <a href="#ref-for-display①">(2)</a>
+    <li><a href="#ref-for-display②">3.2.1. Display</a> <a href="#ref-for-display③">(2)</a>
+    <li><a href="#ref-for-display④">3.2.2. Undisplay</a>
+    <li><a href="#ref-for-display⑤">5.3.1. add()</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="undisplay">

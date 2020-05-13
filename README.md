@@ -73,9 +73,19 @@ storage required to store the entries of the index itself count towards the quot
 [This document](SECURITY_AND_PRIVACY.md) contains additional answers of the [security & privacy questionnaire](https://www.w3.org/TR/security-privacy-questionnaire/).
 
 ## Abuse Considerations
-Malicious/spammy websites can aggressively index their content to maximize the chance of it being surfaced in the
-browser UI. Browsers should be wary of this when choosing the content to surface, and potentially apply a per-origin
-limit. Browsers can also use other signals to pick the appropriate content, like freshness, and site engagement.
+Browsers surfacing content can lead to increased exposure to a website, which would lead to increased profit for said
+website. This might cause malicious/spammy websites to aggressivley register offline-capable content in order to
+maximize their chances of exposure. The spec does not enforce a cap on how many content index entries can be registered,
+nor does it enforce that the content should be displayed. Therefore, it is important that browsers to choose the
+appropriate content to surface at the right time.
+
+That remains to be an implementer choice, but some useful signals browsers can use are:
+- The user's engagement with the website
+- The freshness of the content
+- The user's engagement with other surfaced content from the website
+
+Browsers can also apply a per-origin cap for the content to surface, and penalize websites that don't clean-up
+expired content and user-deleted content.
 
 ## Examples
 Please see [this separate document](IDL.md) for the proposed WebIDL additions.
