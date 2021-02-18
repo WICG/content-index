@@ -40,10 +40,9 @@ dictionary ContentIndexEventInit : ExtendableEventInit {
     required DOMString id;
 };
 
-[
-   Constructor(DOMString type, ContentIndexEventInit init),
-] interface ContentIndexEvent : ExtendableEvent {
-    readonly attribute DOMString id;
+interface ContentIndexEvent : ExtendableEvent {
+  constructor(DOMString type, ContentIndexEventInit init);
+  readonly attribute DOMString id;
 };
 
 partial interface ServiceWorkerGlobalScope {
