@@ -21,8 +21,8 @@ dictionary ContentDescription {
 };
 
 interface ContentIndex {
-    Promise<void> add(ContentDescription description);
-    Promise<void> delete(DOMString id);
+    Promise<undefined> add(ContentDescription description);
+    Promise<undefined> delete(DOMString id);
     Promise<sequence<ContentDescription>> getAll();
 };
 ```
